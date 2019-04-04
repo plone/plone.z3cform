@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ZPublisher import HTTPRequest
 from zope import interface
 from zope.i18n.interfaces import IUserPreferredCharsets
 from zope.publisher.browser import isCGI_NAME
@@ -52,6 +53,11 @@ def processInputs(request, charsets=None):
                     newValue = tuple(value)
 
                 request.form[name] = newValue
+            elif isinstance(value, HTTPRequest.record):
+                newValue = {}
+                for key, val in value.items():
+                    newValue[key] = _decode(val, charsets)
+                request.form[name] = newValue
 
     interface.alsoProvides(request, IProcessedRequest)
 
@@ -59,8 +65,8 @@ def processInputs(request, charsets=None):
 def _decode(text, charsets):
     for charset in charsets:
         try:
-            text = text.decode(charset)
-            break
+            # decode recursively
+            return HTTPRequest._decode(text, charset)
         except (UnicodeError, AttributeError):
             pass
     return text
