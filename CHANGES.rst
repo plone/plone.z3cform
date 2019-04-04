@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Change license to GPLv2
+  [petschki]
 
 Bug fixes:
 
