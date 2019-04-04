@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
+1.1.0 (unreleased)
 ------------------
 
 Breaking changes:
@@ -11,6 +11,9 @@ Breaking changes:
 New features:
 
 - Change license to GPLv2
+  [petschki]
+
+- enable ``:record[s]`` fields in ``z2.processInputs``
   [petschki]
 
 Bug fixes:
