@@ -36,7 +36,7 @@ setup(
     keywords='Plone CMF Python Zope CMS Webapplication',
     author='Plone Foundation',
     author_email='releasemanager@plone.org',
-    url='https://pypi.org/project/plone.z3cform',
+    url='https://github.com/plone/plone.z3cform',
     license='GPL version 2',
     packages=find_packages('src'),
     package_dir={'': 'src'},
