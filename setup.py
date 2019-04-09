@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
+
 import os
+
 
 __version__ = '1.1.0.dev0'
 
@@ -21,17 +23,17 @@ def description():
 setup(
     name='plone.z3cform',
     version=__version__,
-    description="plone.z3cform is a library that allows use of z3c.form "
-    "with Zope and the CMF.",
+    description='plone.z3cform is a library that allows use of z3c.form '
+    'with Zope and the CMF.',
     long_description=description(),
     classifiers=[
-        "Framework :: Plone",
-        "Framework :: Plone :: 5.2",
-        "Framework :: Zope :: 4",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
+        'Framework :: Plone',
+        'Framework :: Plone :: 5.2',
+        'Framework :: Zope :: 4',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     keywords='Plone CMF Python Zope CMS Webapplication',
     author='Plone Foundation',
