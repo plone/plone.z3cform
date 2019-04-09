@@ -10,6 +10,9 @@ Breaking changes:
 
 New features:
 
+- Change license to GPLv2
+  [petschki]
+
 - enable ``:record[s]`` fields in ``z2.processInputs``
   [petschki]
 
