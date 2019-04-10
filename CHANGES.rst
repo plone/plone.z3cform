@@ -1,7 +1,23 @@
 Changelog
 =========
 
-1.1.0 (unreleased)
+1.1.1 (unreleased)
+------------------
+
+Breaking changes:
+
+- *add item here*
+
+New features:
+
+- *add item here*
+
+Bug fixes:
+
+- *add item here*
+
+
+1.1.0 (2019-04-09)
 ------------------
 
 New features:
