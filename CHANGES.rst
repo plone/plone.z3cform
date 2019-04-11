@@ -28,7 +28,8 @@ New features:
 - Enable ``:record[s]`` fields in ``z2.processInputs``
   [petschki]
 
-
+- Cosmetic tweaks.
+  [gforcada]
 
 1.0.0 (2018-11-04)
 ------------------
