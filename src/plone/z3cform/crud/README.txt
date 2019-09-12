@@ -15,6 +15,7 @@ Setup
   >>> from plone.z3cform.tests import setup_defaults
   >>> setup_defaults()
 
+
 A simple form
 -------------
 
@@ -57,8 +58,13 @@ Our simple form looks like this:
 This is all that we need to render a combined edit add form containing
 all our items:
 
+  >>> class FakeContext(object):
+  ...     def absolute_url(self):
+  ...         return 'http://nohost/context'
+  >>> fake_context = FakeContext()
+
   >>> from plone.z3cform.tests import TestRequest
-  >>> print MyForm(None, TestRequest())() \
+  >>> print MyForm(fake_context, TestRequest())() \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...Martha...Peter...</div>
 
@@ -80,7 +86,7 @@ form fires for us:
   >>> request.form['crud-edit.Peter.widgets.name'] = u'Franz'
   >>> request.form['crud-edit.Peter.widgets.age'] = u'16'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply changes'
-  >>> html = MyForm(None, request)()
+  >>> html = MyForm(fake_context, request)()
   >>> "Successfully updated" in html
   True
 
@@ -96,7 +102,7 @@ Two modified events should have been fired:
 
 If we don't make any changes, we'll get a message that says so:
 
-  >>> html = MyForm(None, request)()
+  >>> html = MyForm(fake_context, request)()
   >>> "No changes made" in html
   True
   >>> log
@@ -121,7 +127,7 @@ Let's rename Martha to Maria.  This will give her another key in our
 storage:
 
   >>> request.form['crud-edit.Martha.widgets.name'] = u'Maria'
-  >>> html = MyRenamingForm(None, request)()
+  >>> html = MyRenamingForm(fake_context, request)()
   >>> "Successfully updated" in html
   True
   >>> log.pop().object == storage['Maria']
@@ -138,7 +144,7 @@ clicked the 'Apply changes' button:
   >>> request.form['crud-edit.Maria.widgets.name'] = u'Maria'
   >>> request.form['crud-edit.Maria.widgets.age'] = u'55'
   >>> request.form['crud-edit.Maria.widgets.select'] = [u'selected']
-  >>> html = MyRenamingForm(None, request)()
+  >>> html = MyRenamingForm(fake_context, request)()
   >>> "No changes" in html
   True
   >>> log
@@ -147,7 +153,7 @@ clicked the 'Apply changes' button:
 And what if we do have changes *and* click the checkbox?
 
   >>> request.form['crud-edit.Maria.widgets.age'] = u'50'
-  >>> html = MyRenamingForm(None, request)()
+  >>> html = MyRenamingForm(fake_context, request)()
   >>> "Successfully updated" in html
   True
   >>> log.pop().object == storage['Maria']
@@ -158,7 +164,7 @@ And what if we do have changes *and* click the checkbox?
 If we omit the name, we'll get an error:
 
   >>> request.form['crud-edit.Maria.widgets.name'] = u''
-  >>> html = MyRenamingForm(None, request)()
+  >>> html = MyRenamingForm(fake_context, request)()
   >>> "There were some errors" in html
   True
   >>> "Required input is missing" in html
@@ -179,7 +185,7 @@ clicking the "Delete" button:
   >>> request = TestRequest()
   >>> request.form['crud-edit.Peter.widgets.select'] = ['selected']
   >>> request.form['crud-edit.form.buttons.delete'] = u'Delete'
-  >>> html = MyForm(None, request)()
+  >>> html = MyForm(fake_context, request)()
   >>> "Successfully deleted items" in html
   True
   >>> 'Franz' in html
@@ -198,7 +204,7 @@ Add an item with our form
   >>> request.form['crud-add.form.widgets.name'] = u'Daniel'
   >>> request.form['crud-add.form.widgets.age'] = u'28'
   >>> request.form['crud-add.form.buttons.add'] = u'Add'
-  >>> html = MyForm(None, request)()
+  >>> html = MyForm(fake_context, request)()
   >>> "Item added successfully" in html
   True
 
@@ -218,7 +224,7 @@ What if we try to add "Daniel" twice?  Our current implementation of
 the add form will simply overwrite the data:
 
   >>> save_daniel = storage['Daniel']
-  >>> html = MyForm(None, request)()
+  >>> html = MyForm(fake_context, request)()
   >>> "Item added successfully" in html
   True
   >>> save_daniel is storage['Daniel']
@@ -238,7 +244,7 @@ Let's implement a class that prevents this:
   ...                 u"There's already an item with the name '%s'" % name)
 
   >>> save_daniel = storage['Daniel']
-  >>> html = MyCarefulForm(None, request)()
+  >>> html = MyCarefulForm(fake_context, request)()
   >>> "Item added successfully" in html
   False
   >>> "There's already an item with the name 'Daniel'" in html
@@ -261,7 +267,7 @@ wanted the name of our persons to be viewable only in the table:
   ...     view_schema = field.Fields(IPerson).select('name')
   ...     add_schema = IPerson
 
-  >>> print MyAdvancedForm(None, TestRequest())() \
+  >>> print MyAdvancedForm(fake_context, TestRequest())() \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...Daniel...Maria...</div>
 
@@ -271,7 +277,7 @@ We can still edit the age of our Persons:
   >>> request.form['crud-edit.Maria.widgets.age'] = u'40'
   >>> request.form['crud-edit.Daniel.widgets.age'] = u'35'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply Changes'
-  >>> html = MyAdvancedForm(None, request)()
+  >>> html = MyAdvancedForm(fake_context, request)()
   >>> "Successfully updated" in html
   True
 
@@ -286,7 +292,7 @@ We can still add a Person using both name and age:
   >>> request.form['crud-add.form.widgets.name'] = u'Thomas'
   >>> request.form['crud-add.form.widgets.age'] = u'28'
   >>> request.form['crud-add.form.buttons.add'] = u'Add'
-  >>> html = MyAdvancedForm(None, request)()
+  >>> html = MyAdvancedForm(fake_context, request)()
   >>> "Item added successfully" in html
   True
   >>> len(storage)
@@ -301,7 +307,7 @@ Our form can also contain links to our items:
   ...         if field == 'name':
   ...             return 'http://en.wikipedia.org/wiki/%s' % item.name
 
-  >>> print MyAdvancedLinkingForm(None, TestRequest())() \
+  >>> print MyAdvancedLinkingForm(fake_context, TestRequest())() \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...
   ...<a href="http://en.wikipedia.org/wiki/Daniel"...
@@ -317,7 +323,8 @@ What if we wanted the name to be both used for linking to the item
   ...     view_schema = field.Fields(IPerson).select('name')
   ...     add_schema = IPerson
 
-  >>> print MyAdvancedLinkingForm(None, TestRequest())() \
+
+  >>> print MyAdvancedLinkingForm(fake_context, TestRequest())() \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...
   ...<a href="http://en.wikipedia.org/wiki/Thomas"...Thomas...</a>...
@@ -333,7 +340,7 @@ Wikipedia link immediately:
   >>> request.form['crud-edit.Thomas.widgets.name'] = u'Dracula'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply Changes'
 
-  >>> print MyAdvancedLinkingForm(None, request)() \
+  >>> print MyAdvancedLinkingForm(fake_context, request)() \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...
   ...<a href="http://en.wikipedia.org/wiki/Dracula"...Dracula...</a>...
@@ -351,13 +358,13 @@ disappear:
 
   >>> class OnlyEditForm(MyForm):
   ...     addform_factory = crud.NullForm
-  >>> html = OnlyEditForm(None, TestRequest())()
+  >>> html = OnlyEditForm(fake_context, TestRequest())()
   >>> 'Edit' in html, 'Add' in html
   (True, False)
 
   >>> class OnlyAddForm(MyForm):
   ...     editform_factory = crud.NullForm
-  >>> html = OnlyAddForm(None, TestRequest())()
+  >>> html = OnlyAddForm(fake_context, TestRequest())()
   >>> 'Edit' in html, 'Add' in html
   (False, True)
 
@@ -396,7 +403,7 @@ than the 'edit' and 'delete' ones:
   ...         return sorted(storage.items(), key=lambda x: x[1].name)
 
   >>> request = TestRequest()
-  >>> html = MyCustomForm(None, TestRequest())()
+  >>> html = MyCustomForm(fake_context, TestRequest())()
   >>> "Delete" in html, "Apply changes" in html, "Capitalize" in html
   (False, False, True)
   >>> pprint(storage)
@@ -406,7 +413,7 @@ than the 'edit' and 'delete' ones:
 
   >>> request.form['crud-edit.Thomas.widgets.select'] = ['selected']
   >>> request.form['crud-edit.form.buttons.capitalize'] = u'Capitalize'
-  >>> html = MyCustomForm(None, request)()
+  >>> html = MyCustomForm(fake_context, request)()
   >>> "Capitalized items" in html
   True
   >>> pprint(storage)
@@ -418,7 +425,7 @@ We *cannot* use any of the other buttons:
 
   >>> del request.form['crud-edit.form.buttons.capitalize']
   >>> request.form['crud-edit.form.buttons.delete'] = u'Delete'
-  >>> html = MyCustomForm(None, request)()
+  >>> html = MyCustomForm(fake_context, request)()
   >>> "Successfully deleted items" in html
   False
   >>> 'Thomas' in storage
@@ -449,7 +456,7 @@ page template and customize the look of the fields.
   ...     editform_factory = MyCustomEditForm
 
   >>> request = TestRequest()
-  >>> html = MyCustomFormWithCustomSubForm(None, TestRequest())()
+  >>> html = MyCustomFormWithCustomSubForm(fake_context, TestRequest())()
 
 Still uses same form as before
   >>> "Delete" in html, "Apply changes" in html, "Capitalize" in html
@@ -469,7 +476,7 @@ as many items displayed per page.
   >>> class MyBatchingForm(MyForm):
   ...     batch_size = 2
   >>> request = TestRequest()
-  >>> html = MyBatchingForm(None, request)()
+  >>> html = MyBatchingForm(fake_context, request)()
   >>> "Daniel" in html, "Maria" in html
   (True, True)
   >>> "THOMAS" in html
@@ -482,19 +489,31 @@ Make sure, the batch link to the next page is available
 
 Show next page and check content
 
+  >>> request = TestRequest(QUERY_STRING='crud-edit.form.page=1')
   >>> request.form['crud-edit.form.page'] = '1'
-  >>> html = MyBatchingForm(None, request)()
+  >>> html = MyBatchingForm(fake_context, request)()
   >>> "Daniel" in html, "Maria" in html
   (False, False)
   >>> "THOMAS" in html
   True
+
+The form action also includes the batch page information so
+the correct set of subforms can be processed::
+
+  >>> print(html) \
+  ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+  <BLANKLINE>
+  ...
+  <form action="http://nohost/context?crud-edit.form.page=1"
+            method="post">
+  ...
 
 Let's change Thomas' age on the second page:
 
   >>> request.form['crud-edit.Thomas.widgets.name'] = u'Thomas'
   >>> request.form['crud-edit.Thomas.widgets.age'] = '911'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply changes'
-  >>> html = MyBatchingForm(None, request)()
+  >>> html = MyBatchingForm(fake_context, request)()
   >>> "Successfully updated" in html
   True
   >>> "911" in html

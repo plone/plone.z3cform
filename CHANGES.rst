@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.9.2 (Unreleased)
+------------------
+
+Bug fixes:
+
+- Fix edit/delete in paginated crud-forms [fRiSi]
+
+
 0.9.1 (2017-09-03)
 ------------------
 

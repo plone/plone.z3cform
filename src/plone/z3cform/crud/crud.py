@@ -303,6 +303,27 @@ class EditForm(form.Form):
                 tuples.append((subform.content_id, subform.content))
         return tuples
 
+    def getURL(self):
+        """Return url of the current page including parameters.
+
+        Equivalent to plone_context_state/current_page_url, not using plone
+        to not need plone stack in testing-setup
+        """
+        current_base_url = self.request.get(
+            'ACTUAL_URL',
+            self.request.get(
+                'VIRTUAL_URL',
+                self.request.get(
+                    'URL',
+                    self.context.context.absolute_url()
+                )
+            )
+        )
+        query = self.request.get('QUERY_STRING', None)
+        if query:
+            return current_base_url + '?' + query
+        return current_base_url
+
 
 class AddForm(form.Form):
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-add.pt')
