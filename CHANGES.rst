@@ -6,6 +6,8 @@ Changelog
 
 Bug fixes:
 
+- Fix edit/delete in paginated crud-forms [fRiSi]
+
 - Removal of tuple parameter unpacking in method definition (Fixes #14)
   [ale-rt]
 

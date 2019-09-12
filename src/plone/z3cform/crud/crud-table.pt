@@ -12,7 +12,7 @@
        tal:condition="view/status" tal:content="view/status">
   </div>
 
-  <form action="." method="post" tal:attributes="action request/getURL">
+  <form action="." method="post" tal:attributes="action context/context/@@plone_context_state/current_page_url">
 
     <tal:batch tal:replace="structure view/render_batch_navigation" />
 
