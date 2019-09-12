@@ -199,7 +199,7 @@ class EditForm(form.Form):
     label = _(u"Edit")
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-table.pt')
 
-    #exposes the edit sub form for your own derivatives
+    # exposes the edit sub form for your own derivatives
     editsubform_factory = EditSubForm
 
     @property
@@ -225,7 +225,7 @@ class EditForm(form.Form):
         items = self.context.get_items()
         batch_size = self.context.batch_size or sys.maxint
         page = int(self.request.get('%spage' % self.prefix, 0))
-        return Batch.fromPagenumber(items, batch_size, page+1)
+        return Batch.fromPagenumber(items, batch_size, page)
 
     def render_batch_navigation(self):
         bv = CrudBatchView(self.context, self.request)

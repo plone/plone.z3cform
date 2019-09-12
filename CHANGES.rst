@@ -4,7 +4,7 @@ Changelog
 0.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix batching in crud forms [fRiSi]
 
 
 0.8.1 (2015-01-22)
