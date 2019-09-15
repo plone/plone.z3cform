@@ -12,15 +12,15 @@ Bug fixes:
   [ale-rt]
 
 - Provide an up-to-date bootstrap.py
+  [ale-rt]
+
 - Python 3 compatibility: use the adapter and implementer decorators
   [ale-rt]
 
-New features:
-
-- Add support for Python 3
-  [pbauer]
-
-- Prepare for Python 2 / 3 compatibility
+- Prepare for Python 2 / 3 compatibility.
+  Note that technically version 0.9.2 works with Python 2 and 3,
+  but Plone 5.2 is not supported, so the Python 3 part does not help you.
+  Use version 1.0.0 or later on Plone 5.2.
   [pbauer, davilima6]
 
 
