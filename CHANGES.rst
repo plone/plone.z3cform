@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix edit/delete in paginated crud-forms [fRiSi]
 
 
 1.1.0 (2019-04-09)
