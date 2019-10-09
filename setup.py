@@ -26,6 +26,7 @@ setup(
     'with Zope and the CMF.',
     long_description=description(),
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Framework :: Plone',
         'Framework :: Plone :: 5.2',
         'Framework :: Zope :: 4',
