@@ -47,9 +47,20 @@
         </tbody>
     </table>
 
-    <div class="action" tal:repeat="action view/actions/values">
-      <input type="submit" tal:replace="structure action/render" />
-    </div>
+    <tal:actions define="actions view/actions/values">
+      <tal:single condition="python:len(actions) == 1">
+        <div class="action" tal:repeat="action actions">
+          <input type="submit" tal:replace="structure action/render" />
+        </div>
+      </tal:single>
+      <tal:multiple condition="python:len(actions) > 1">
+        <ul>
+          <li class="action" tal:repeat="action actions">
+            <input type="submit" tal:replace="structure action/render" />
+          </li>
+        </ul>
+      </tal:multiple>
+    </tal:actions>
 
   </form>
 

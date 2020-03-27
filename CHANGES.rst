@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Buttons in crud-table should be list items. Fixes #9
+  [erral]
 
 
 1.1.1 (2019-10-12)
