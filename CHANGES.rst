@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.1.2 (2020-04-21)
+------------------
+
+Bug fixes:
+
+
+- Buttons in crud-table should be list items.
+  [erral] (#9)
+
 
 1.1.1 (2019-10-12)
 ------------------

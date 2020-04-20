@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 import os
 
-__version__ = '1.1.2.dev0'
+__version__ = '1.1.2'
 
 
 def description():
