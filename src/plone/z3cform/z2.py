@@ -62,11 +62,25 @@ def processInputs(request, charsets=None):
     interface.alsoProvides(request, IProcessedRequest)
 
 
+def _recursive_decode(value, charset):
+    """Recursively look for string values and decode.
+    """
+    if isinstance(value, list):
+        return [_recursive_decode(v, charset) for v in value]
+    elif isinstance(value, tuple):
+        return tuple(_recursive_decode(v, charset) for v in value)
+    elif isinstance(value, dict):
+        return {k: _recursive_decode(v, charset) for k, v in value.items()}
+    elif isinstance(value, six.binary_type):
+        return six.text_type(value, charset, 'replace')
+    return value
+
+
 def _decode(text, charsets):
     for charset in charsets:
         try:
             # decode recursively
-            return HTTPRequest._decode(text, charset)
+            return _recursive_decode(text, charset)
         except (UnicodeError, AttributeError):
             pass
     return text
