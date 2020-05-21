@@ -1,0 +1,1 @@
+Copy the HTTPRequest._decode from Zope4 because it is going away in Zope5

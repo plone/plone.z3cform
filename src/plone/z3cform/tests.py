@@ -179,6 +179,39 @@ class Py23DocChecker(doctest.OutputChecker):
         return doctest.OutputChecker.check_output(self, want, got, optionflags)
 
 
+class Z2TestCase(unittest.TestCase):
+    def test_recursive_decode(self):
+        from plone.z3cform.z2 import _recursive_decode
+
+        form = _recursive_decode(
+            {
+                "foo": b"fo\xc3\xb8",
+                "foo_list": [b"fo\xc3\xb8", "SPAM"],
+                "foo_tuple": (b"fo\xc3\xb8", "HAM"),
+                "foo_dict": {"foo": b"fo\xc3\xb8", "bar": "EGGS"},
+            },
+            "utf-8",
+        )
+        self.assertIsInstance(form["foo"], six.text_type)
+        self.assertEqual(form["foo"], u"foø")
+        self.assertIsInstance(form["foo_list"], list)
+        self.assertIsInstance(form["foo_list"][0], six.text_type)
+        self.assertIsInstance(form["foo_list"][1], six.text_type)
+        self.assertEqual(form["foo_list"][0], u"foø")
+        self.assertEqual(form["foo_list"][1], "SPAM")
+        self.assertIsInstance(form["foo_tuple"], tuple)
+        self.assertIsInstance(form["foo_tuple"][0], six.text_type)
+        self.assertIsInstance(form["foo_tuple"][1], six.text_type)
+        self.assertEqual(form["foo_tuple"][0], u"foø")
+        self.assertEqual(form["foo_tuple"][1], "HAM")
+        self.assertIsInstance(form["foo_dict"], dict)
+        self.assertIsInstance(form["foo_dict"]["foo"], six.text_type)
+        self.assertIsInstance(form["foo_dict"]["bar"], six.text_type)
+        self.assertEqual(form["foo_dict"]["foo"], u"foø")
+        self.assertEqual(form["foo_dict"]["bar"], "EGGS")
+
+
+
 def test_suite():
     layout_txt = layered(
         doctest.DocFileSuite('layout.rst', checker=Py23DocChecker()),
@@ -214,8 +247,8 @@ def test_suite():
         doctest.DocFileSuite('traversal.txt', checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
-
-    return unittest.TestSuite(
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(Z2TestCase)
+    suite.addTests(
         [
             layout_txt,
             inputs_txt,
@@ -225,3 +258,4 @@ def test_suite():
             crud_py,
         ]
     )
+    return suite
