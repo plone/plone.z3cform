@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.1.3 (2020-06-16)
+------------------
+
+Bug fixes:
+
+
+- Copy the HTTPRequest._decode from Zope4 because it is going away in Zope5 (#13)
+
+
 1.1.2 (2020-04-21)
 ------------------
 
