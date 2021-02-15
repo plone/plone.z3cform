@@ -87,12 +87,13 @@ class FormWrapper(BrowserView):
         """
         return self.form_instance.label
 
+    @property
     def description(self):
-        """Override this method to use a different way of acquiring a
+        """Override this property to use a different way of acquiring a
         description for your page.  Overriding this with a simple
         attribute works as well.
         """
-        return getattr(self.form_instance, 'description', None)
+        return getattr(self.form_instance, 'description', "")
 
 
 def wrap_form(form, __wrapper_class=FormWrapper, **kwargs):
