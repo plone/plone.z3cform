@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 import os
 
-__version__ = '1.1.4.dev0'
+__version__ = '2.0.0.dev0'
 
 
 def description():
@@ -26,15 +26,17 @@ setup(
     'with Zope and the CMF.',
     long_description=description(),
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Framework :: Plone',
-        'Framework :: Plone :: 6',
-        'Framework :: Plone :: Core',
-        'Framework :: Zope :: 5',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Web Environment",
+        "Framework :: Plone",
+        "Framework :: Plone :: 6.0",
+        "Framework :: Plone :: Core",
+        "Framework :: Zope :: 5",
+        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
     ],
     keywords='Plone CMF Python Zope CMS Webapplication',
     author='Plone Foundation',
