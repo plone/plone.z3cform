@@ -49,7 +49,7 @@ request::
 
   >>> form = TestForm(context, request)
   >>> form.update()
-  >>> form.fields.keys()
+  >>> list(form.fields.keys())
   ['title']
 
 Now let's register an adapter that adds two new fields - one in the
@@ -146,7 +146,7 @@ With this in place, let's update the form once again::
 At this point, we should have a set of default fields that represent the
 ones set in the adapter::
 
-  >>> form.fields.keys()
+  >>> list(form.fields.keys())
   ['extra.fub', 'title', 'extra.foo']
 
 And we should have one group created by the group factory::
@@ -163,5 +163,5 @@ canonical name::
 
 This should have the group fields provided by the adapter as well::
 
-  >>> form.groups[0].fields.keys()
+  >>> list(form.groups[0].fields.keys())
   ['extra.bar', 'extra.qux', 'extra.baz']

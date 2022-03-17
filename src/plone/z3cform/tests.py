@@ -225,7 +225,6 @@ def test_suite():
         doctest.DocFileSuite('fieldsets/README.rst', checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
-
     traversal_txt = layered(
         doctest.DocFileSuite('traversal.txt', checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
@@ -242,10 +241,6 @@ def test_suite():
             checker=Py23DocChecker(),
         ),
         layer=zca.UNIT_TESTING,
-    )
-    traversal_txt = layered(
-        doctest.DocFileSuite('traversal.txt', checker=Py23DocChecker()),
-        layer=FUNCTIONAL_TESTING,
     )
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(Z2TestCase)
     suite.addTests(
