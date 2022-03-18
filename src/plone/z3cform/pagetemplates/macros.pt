@@ -35,7 +35,7 @@
           <metal:fields-slot define-slot="fields">
             <metal:define define-macro="fields">
 
-              <tal:widgets repeat="widget view/widgets/values">
+              <tal:widgets repeat="widget python:view.widgets.values()">
                 <div class="row"
                      tal:define="hidden python:widget.mode == 'hidden'"
                      tal:omit-tag="hidden">
