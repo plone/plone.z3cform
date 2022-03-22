@@ -35,4 +35,7 @@
   <adapter factory=".traversal.FormWidgetTraversal" name="widget" />
   <adapter factory=".traversal.WrapperWidgetTraversal" name="widget" />
 
+  <!-- subform adapter backport -->
+  <adapter factory=".subform.SubformAdapter" />
+
 </configure>

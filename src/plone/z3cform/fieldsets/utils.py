@@ -29,7 +29,7 @@ def add(form, *args, **kwargs):
         if index is None or index >= len(source.fields):
             source.fields += new_fields
         else:
-            field_names = source.fields.keys()
+            field_names = list(source.fields.keys())
             source.fields = source.fields.select(*field_names[:index]) + \
                 new_fields + \
                 source.fields.select(*field_names[index:])
@@ -101,7 +101,7 @@ def move(
     index = None
 
     if relative in form.fields:
-        index = form.fields.keys().index(relative)
+        index = list(form.fields.keys()).index(relative)
     elif orig_relative == '*' and relative_prefix is None:
         if before:
             index = 0
@@ -110,7 +110,7 @@ def move(
     else:
         for group in form.groups:
             if relative in group.fields:
-                index = group.fields.keys().index(relative)
+                index = list(group.fields.keys()).index(relative)
                 break
             elif orig_relative == '*' and relative_prefix == group.prefix:
                 if before:

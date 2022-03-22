@@ -214,13 +214,13 @@ We can find this object widget
 And traverse through to the form within
 
     >>> traverser = get_traverser(Bar(),u"test-parent-form")
-    >>> list_widget = traverser.traverse('obj_field.widgets.list_field', [])
+    >>> list_widget = traverser.traverse('obj_field.list_field', [])
     Updating test form
     >>> list_widget
     <MultiWidget 'form.widgets.obj_field.widgets.list_field'>
 
     >>> traverser = get_traverser(Bar(),u"test-parent-form")
-    >>> age_widget = traverser.traverse('obj_field.widgets.list_field.0', [])
+    >>> age_widget = traverser.traverse('obj_field.list_field.0', [])
     Updating test form
     >>> age_widget
     <TextWidget 'form.widgets.obj_field.widgets.list_field.0'>
@@ -230,7 +230,7 @@ And traverse through to the form within
 Missing widgets are LocationErrors
 
     >>> traverser = get_traverser(Bar(),u"test-parent-form")
-    >>> list_widget = traverser.traverse('obj_field.widgets.camel_field', [])
+    >>> list_widget = traverser.traverse('obj_field.camel_field', [])
     Traceback (most recent call last):
       File "<stdin>", line 1, in ?
     zope.location.interfaces.LocationError: 'camel_field'
