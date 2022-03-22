@@ -1,6 +1,7 @@
 from z3c.form.interfaces import IForm
 from zope import schema
-from zope.interface import Interface, Attribute
+from zope.interface import Attribute
+from zope.interface import Interface
 from zope.pagetemplate.interfaces import IPageTemplate
 
 
@@ -56,3 +57,13 @@ class IDeferSecurityCheck(Interface):
     This can be used by other code that wants to skip security
     checks during traversal.
     """
+
+
+class ISubformFactory(Interface):
+    """Factory that will instantiate our subforms for ObjectWidget.
+       BBB: backported from z3c.form 3.6.x
+    """
+
+    def __call__():
+        """Return a default object created to be populated.
+        """
