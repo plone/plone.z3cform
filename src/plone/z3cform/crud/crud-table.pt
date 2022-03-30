@@ -40,27 +40,16 @@
         </thead>
         <tbody>
           <tal:block repeat="row view/subforms">
-            <tr tal:content="structure row/render"
-                tal:attributes="class python:repeat['row'].odd() and 'even' or 'odd'">
+            <tr tal:content="structure row/render">
+              <td></td>
             </tr>
           </tal:block>
         </tbody>
     </table>
 
-    <tal:actions define="actions view/actions/values">
-      <tal:single condition="python:len(actions) == 1">
-        <div class="action" tal:repeat="action actions">
-          <input type="submit" tal:replace="structure action/render" />
-        </div>
-      </tal:single>
-      <tal:multiple condition="python:len(actions) > 1">
-        <ul>
-          <li class="action" tal:repeat="action actions">
-            <input type="submit" tal:replace="structure action/render" />
-          </li>
-        </ul>
-      </tal:multiple>
-    </tal:actions>
+    <span class="action" tal:repeat="action view/actions/values">
+      <input type="submit" tal:replace="structure action/render" />
+    </span>
 
   </form>
 
