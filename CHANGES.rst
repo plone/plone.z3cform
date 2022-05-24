@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0a3 (2022-05-24)
+--------------------
+
+Bug fixes:
+
+
+- cleanup crud-table markup
+  [petschki] (#21)
+
+
 2.0.0a2 (2022-03-23)
 --------------------
 
