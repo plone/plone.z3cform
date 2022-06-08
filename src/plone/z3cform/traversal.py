@@ -82,6 +82,9 @@ class FormWidgetTraversal(object):
                                 if w.name == full_name]
                     if len(filtered) == 1:
                         target = filtered[0]
+                        # we have to pop "widgets" from parts here
+                        # this is since z3c.form.widget.MultiWidget >= 4.x
+                        parts.remove("widgets")
                     else:
                         raise TraversalError("'" + part + "' not valid index")
             elif hasattr(target, 'widgets'):  # Either base form, or subform
