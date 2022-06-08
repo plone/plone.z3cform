@@ -1,0 +1,2 @@
+Fix traversal to `z3c.form.widget.MultiWidget` widgets.
+[petschki]
