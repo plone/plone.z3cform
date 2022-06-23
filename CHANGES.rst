@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0b1 (2022-06-23)
+--------------------
+
+Bug fixes:
+
+
+- Fix traversal to `z3c.form.widget.MultiWidget` widgets.
+  [petschki] (#22)
+
+
 2.0.0a3 (2022-05-24)
 --------------------
 
