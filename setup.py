@@ -58,14 +58,11 @@ setup(
     zip_safe=False,
     python_requires=">=3.8",
     install_requires=[
-        "setuptools",
         "plone.batching",
-        "six",
         "z3c.form>=4.0",
-        "zope.i18n>=3.4",
         "zope.browserpage",
-        "zope.component",
+        "zope.pagetemplate",
         "Zope",
     ],
-    extras_require={"test": ["lxml", "plone.testing[z2]"]},
+    extras_require={"test": ["persistent", "plone.testing[z2]", "zope.annotation"]},
 )
