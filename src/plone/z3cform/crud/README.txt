@@ -353,7 +353,7 @@ Don't render one part
 What if we wanted our form to display only one part, that is, only the
 add *or* the edit form.  Our CrudForm can implement
 ``editform_factory`` and ``addform_factory`` to override one or both
-forms.  Seeting one of these to ``crud.NullForm`` will make them
+forms.  Setting one of these to ``crud.NullForm`` will make them
 disappear:
 
   >>> class OnlyEditForm(MyForm):
@@ -434,7 +434,7 @@ We *cannot* use any of the other buttons:
 Customizing sub forms
 ---------------------
 
-The EditForm class allows you to specify an editsubform_factory-a classs
+The EditForm class allows you to specify an editsubform_factory-a class
 inherits from EditSubForm.  This allows you to say, override the crud-row.pt
 page template and customize the look of the fields.
 

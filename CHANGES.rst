@@ -407,7 +407,7 @@ Fixes:
   now look like plone tables.
 
 * Copy translation files to an english folder, so if your browser
-  negociate to ``en,nl``, you will get english translations instead of
+  negotiate to ``en,nl``, you will get english translations instead of
   dutch ones (like expected).
   [thefunny42]
 

@@ -12,7 +12,7 @@ the case. To be compatible with both Zope 2.10 and 2.12, you'll need to
 mix in Acquisition.Explicit, but make sure the widget does *not* provide the
 IAcquirer interface. One way to do that is by using implementsOnly(), e.g.::
 
-    class MyWidget(Aquisition.Explicit):
+    class MyWidget(Acquisition.Explicit):
         implementsOnly(IMyWidget)
 
         ...

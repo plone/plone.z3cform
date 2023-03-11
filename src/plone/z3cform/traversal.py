@@ -31,7 +31,7 @@ class FormWidgetTraversal:
     Unfortunately, if you mix in Acquisition.Explicit in Zope 2.12 *and* the
     class implements IAcquirer, Zope may complain because the view probably
     does *not* implement acquisition (in Zope 2.12, views no longer mix in
-    Acquisiton.Explicit). To support both Zope 2.10 and Zope 2.12, you will
+    Acquisition.Explicit). To support both Zope 2.10 and Zope 2.12, you will
     need to cheat and mix in Acquisition.Explicit, but use implementsOnly()
     or some other mechanism to make sure the instance does not provide
     IAcquirer.
