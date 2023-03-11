@@ -12,8 +12,6 @@ from zope.publisher.browser import TestRequest as BaseTestRequest
 
 import doctest
 import plone.z3cform.templates
-import re
-import six
 import unittest
 
 
@@ -166,14 +164,6 @@ FUNCTIONAL_TESTING = z2.FunctionalTesting(
 )
 
 
-class Py23DocChecker(doctest.OutputChecker):
-    def check_output(self, want, got, optionflags):
-        if six.PY2:
-            got = re.sub("LocationError", "zope.location.interfaces.LocationError", got)
-            got = re.sub("u'(.*?)'", "'\\1'", got)
-        return doctest.OutputChecker.check_output(self, want, got, optionflags)
-
-
 class Z2TestCase(unittest.TestCase):
     def test_recursive_decode(self):
         from plone.z3cform.z2 import _recursive_decode
@@ -208,23 +198,23 @@ class Z2TestCase(unittest.TestCase):
 
 def test_suite():
     layout_txt = layered(
-        doctest.DocFileSuite("layout.rst", checker=Py23DocChecker()),
+        doctest.DocFileSuite("layout.rst"),
         layer=FUNCTIONAL_TESTING,
     )
     inputs_txt = layered(
-        doctest.DocFileSuite("inputs.txt", checker=Py23DocChecker()),
+        doctest.DocFileSuite("inputs.txt"),
         layer=FUNCTIONAL_TESTING,
     )
     fieldsets_txt = layered(
-        doctest.DocFileSuite("fieldsets/README.rst", checker=Py23DocChecker()),
+        doctest.DocFileSuite("fieldsets/README.rst"),
         layer=FUNCTIONAL_TESTING,
     )
     traversal_txt = layered(
-        doctest.DocFileSuite("traversal.txt", checker=Py23DocChecker()),
+        doctest.DocFileSuite("traversal.txt"),
         layer=FUNCTIONAL_TESTING,
     )
     crud_readme_txt = layered(
-        doctest.DocFileSuite("crud/README.txt", checker=Py23DocChecker()),
+        doctest.DocFileSuite("crud/README.txt"),
         layer=zca.UNIT_TESTING,
     )
     crud_py = layered(
@@ -232,7 +222,6 @@ def test_suite():
             "plone.z3cform.crud.crud",
             setUp=testing.setUp,
             tearDown=testing.tearDown,
-            checker=Py23DocChecker(),
         ),
         layer=zca.UNIT_TESTING,
     )
