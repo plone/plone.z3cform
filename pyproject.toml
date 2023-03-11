@@ -60,6 +60,7 @@ Zope = [
   'Products.CMFDynamicViewFTI', 'zope.deprecation',
 ]
 python-dateutil = ['dateutil']
+ignore-packages = ['five.pt']
 
 [tool.codespell]
 skip = "*.po"
