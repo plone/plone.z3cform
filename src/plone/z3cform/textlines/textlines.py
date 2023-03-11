@@ -34,9 +34,9 @@ except ImportError:
 
     # backport for z3c.form 1.9
 
+    from z3c.form import converter
     from z3c.form import interfaces
     from z3c.form import widget
-    from z3c.form import converter
     from z3c.form.browser import textarea
 
     class ITextLinesWidget(interfaces.IWidget):

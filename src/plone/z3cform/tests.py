@@ -35,10 +35,18 @@ def create_eventlog(event=interface.Interface):
 
 def setup_defaults():
     # Set up z3c.form defaults
-    from z3c.form import browser, button, converter, datamanager, error, field
-    from z3c.form import interfaces, validator, widget
+    from z3c.form import browser
+    from z3c.form import button
+    from z3c.form import converter
+    from z3c.form import datamanager
+    from z3c.form import error
+    from z3c.form import field
+    from z3c.form import interfaces
+    from z3c.form import validator
+    from z3c.form import widget
     from z3c.form.browser import text
     from zope.pagetemplate.interfaces import IPageTemplate
+
     import os.path
     import zope.schema
 

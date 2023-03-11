@@ -1,4 +1,3 @@
-from ZODB.POSException import ConflictError
 from plone.batching import Batch
 from plone.batching.browser import BatchView
 from plone.z3cform import MessageFactory as _
@@ -6,9 +5,13 @@ from plone.z3cform.widget import singlecheckboxwidget_factory
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
-from z3c.form.interfaces import DISPLAY_MODE, INPUT_MODE, NOVALUE
+from z3c.form.interfaces import DISPLAY_MODE
+from z3c.form.interfaces import INPUT_MODE
+from z3c.form.interfaces import NOVALUE
+from ZODB.POSException import ConflictError
 from zope import interface
 from zope.browserpage import viewpagetemplatefile
+
 import sys
 import z3c.form.widget
 import zope.event

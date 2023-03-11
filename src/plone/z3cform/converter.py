@@ -1,8 +1,8 @@
-import ZPublisher.HTTPRequest
 import cgi
 import z3c.form.converter
 import z3c.form.interfaces
 import zope.publisher.browser
+import ZPublisher.HTTPRequest
 
 
 class FileUploadDataConverter(z3c.form.converter.FileUploadDataConverter):

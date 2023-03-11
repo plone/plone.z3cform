@@ -7,7 +7,7 @@ itself to render parts of it.
 from Acquisition import IAcquirer
 from Acquisition import ImplicitAcquisitionWrapper
 from Products.Five.browser.pagetemplatefile import (
-    ViewPageTemplateFile as ZopeTwoPageTemplateFile
+    ViewPageTemplateFile as ZopeTwoPageTemplateFile,
 )
 from z3c.form import util
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile

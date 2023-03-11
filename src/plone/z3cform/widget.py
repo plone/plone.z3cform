@@ -1,4 +1,5 @@
 from zope.schema import vocabulary
+
 import z3c.form.browser.checkbox
 import z3c.form.interfaces
 import z3c.form.term

@@ -1,9 +1,10 @@
 from Acquisition import aq_inner
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import BoundPageTemplate
 from plone.z3cform import interfaces
 from plone.z3cform import z2
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import BoundPageTemplate
 from zope.pagetemplate.interfaces import IPageTemplate
+
 import z3c.form.interfaces
 import zope.component
 import zope.interface

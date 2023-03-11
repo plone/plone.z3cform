@@ -1,8 +1,8 @@
-from ZPublisher import HTTPRequest
 from zope import interface
 from zope.i18n.interfaces import IUserPreferredCharsets
 from zope.publisher.browser import isCGI_NAME
 from zope.publisher.interfaces.browser import IBrowserApplicationRequest
+from ZPublisher import HTTPRequest
 
 import six
 import z3c.form.interfaces
