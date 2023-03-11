@@ -24,7 +24,7 @@ import zope.publisher.browser
 
 def path(filename):
     return os.path.join(
-        os.path.dirname(plone.z3cform.__file__), 'pagetemplates', filename
+        os.path.dirname(plone.z3cform.__file__), "pagetemplates", filename
     )
 
 
@@ -40,12 +40,8 @@ class FormTemplateFactory(z3c.form.form.FormTemplateFactory):
     that instead.
     """
 
-    def __init__(
-        self, filename, contentType='text/html', form=None, request=None
-    ):
-        self.template = ViewPageTemplateFile(
-            filename, content_type=contentType
-        )
+    def __init__(self, filename, contentType="text/html", form=None, request=None):
+        self.template = ViewPageTemplateFile(filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(form), util.getSpecification(request)
         )(self)
@@ -59,12 +55,8 @@ class ZopeTwoFormTemplateFactory(z3c.form.form.FormTemplateFactory):
     form wrapper view.
     """
 
-    def __init__(
-        self, filename, contentType='text/html', form=None, request=None
-    ):
-        self.template = ZopeTwoPageTemplateFile(
-            filename, content_type=contentType
-        )
+    def __init__(self, filename, contentType="text/html", form=None, request=None):
+        self.template = ZopeTwoPageTemplateFile(filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(form), util.getSpecification(request)
         )(self)
@@ -86,16 +78,14 @@ class ZopeTwoWidgetTemplateFactory(z3c.form.widget.WidgetTemplateFactory):
     def __init__(
         self,
         filename,
-        contentType='text/html',
+        contentType="text/html",
         context=None,
         request=None,
         view=None,
         field=None,
         widget=None,
     ):
-        self.template = ViewPageTemplateFile(
-            filename, content_type=contentType
-        )
+        self.template = ViewPageTemplateFile(filename, content_type=contentType)
         zope.component.adapter(
             util.getSpecification(context),
             util.getSpecification(request),
@@ -117,21 +107,21 @@ class Macros(zope.publisher.browser.BrowserView):
 # Default templates for the wrapped layout view use case
 
 layout_factory = ZopeTwoFormTemplateFactory(
-    path('layout.pt'), form=plone.z3cform.interfaces.IFormWrapper
+    path("layout.pt"), form=plone.z3cform.interfaces.IFormWrapper
 )
 
 wrapped_form_factory = FormTemplateFactory(
-    path('wrappedform.pt'), form=plone.z3cform.interfaces.IWrappedForm
+    path("wrappedform.pt"), form=plone.z3cform.interfaces.IWrappedForm
 )
 
 # Default templates for the standalone form use case
 
 standalone_form_factory = ZopeTwoFormTemplateFactory(
-    path('form.pt'), form=z3c.form.interfaces.IForm
+    path("form.pt"), form=z3c.form.interfaces.IForm
 )
 
 # Default templates for subforms
 
 subform_factory = FormTemplateFactory(
-    path('subform.pt'), form=z3c.form.interfaces.ISubForm
+    path("subform.pt"), form=z3c.form.interfaces.ISubForm
 )

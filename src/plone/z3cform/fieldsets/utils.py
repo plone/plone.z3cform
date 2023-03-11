@@ -12,8 +12,8 @@ def add(form, *args, **kwargs):
     created if it doesn't exist.
     """
 
-    index = kwargs.pop('index', None)
-    group = kwargs.pop('group', None)
+    index = kwargs.pop("index", None)
+    group = kwargs.pop("group", None)
 
     new_fields = Fields(*args, **kwargs)
 
@@ -30,14 +30,15 @@ def add(form, *args, **kwargs):
             source.fields += new_fields
         else:
             field_names = list(source.fields.keys())
-            source.fields = source.fields.select(*field_names[:index]) + \
-                new_fields + \
-                source.fields.select(*field_names[index:])
+            source.fields = (
+                source.fields.select(*field_names[:index])
+                + new_fields
+                + source.fields.select(*field_names[index:])
+            )
 
 
 def remove(form, field_name, prefix=None):
-    """Get rid of a field. The omitted field will be returned.
-    """
+    """Get rid of a field. The omitted field will be returned."""
 
     if prefix:
         field_name = expandPrefix(prefix) + field_name
@@ -54,15 +55,8 @@ def remove(form, field_name, prefix=None):
                 return field
 
 
-def move(
-        form,
-        field_name,
-        before=None,
-        after=None,
-        prefix=None,
-        relative_prefix=None):
-    """Move the field with the given name before or after another field.
-    """
+def move(form, field_name, before=None, after=None, prefix=None, relative_prefix=None):
+    """Move the field with the given name before or after another field."""
     if prefix:
         field_name = expandPrefix(prefix) + field_name
 
@@ -79,14 +73,14 @@ def move(
 
     if field_name not in form.fields:
         found = False
-        for group in getattr(form, 'groups', []):
+        for group in getattr(form, "groups", []):
             if field_name in group.fields:
                 found = True
                 break
         if not found:
             raise KeyError("Field %s not found" % field_name)
 
-    if relative != '*' and relative not in form.fields:
+    if relative != "*" and relative not in form.fields:
         found = False
         for group in form.groups:
             if relative in group.fields:
@@ -102,7 +96,7 @@ def move(
 
     if relative in form.fields:
         index = list(form.fields.keys()).index(relative)
-    elif orig_relative == '*' and relative_prefix is None:
+    elif orig_relative == "*" and relative_prefix is None:
         if before:
             index = 0
         else:
@@ -112,7 +106,7 @@ def move(
             if relative in group.fields:
                 index = list(group.fields.keys()).index(relative)
                 break
-            elif orig_relative == '*' and relative_prefix == group.prefix:
+            elif orig_relative == "*" and relative_prefix == group.prefix:
                 if before:
                     index = 0
                 else:

@@ -12,16 +12,17 @@ class IFormExtender(Interface):
 
     order = schema.Int(
         title="Order",
-        description="Use this property to order the sorter. " +
-        "Low numbers are executed before high ones.",
-        required=True)
+        description="Use this property to order the sorter. "
+        + "Low numbers are executed before high ones.",
+        required=True,
+    )
 
     def update():
         """Modify the form in place. Supported operations include:
 
-         - modify the 'fields' object to change the default fieldset
-         - modify the 'groups' list to add, remove or reorder fieldsets
-         - modify the 'fields' property of a given group
+        - modify the 'fields' object to change the default fieldset
+        - modify the 'groups' list to add, remove or reorder fieldsets
+        - modify the 'fields' property of a given group
         """
 
 
@@ -35,25 +36,24 @@ class IDescriptiveGroup(IGroup):
     label = schema.TextLine(
         title="Fieldset title",
         description="The __name__ will be used if this is not given",
-        required=False)
+        required=False,
+    )
 
-    description = schema.Text(title="Fieldset description",
-                              required=False)
+    description = schema.Text(title="Fieldset description", required=False)
 
 
 class IGroupFactory(Interface):
-    """An object that can be used to create a z3c.form.group.Group.
-    """
+    """An object that can be used to create a z3c.form.group.Group."""
 
     __name__ = schema.TextLine(title="Name of this group")
 
     label = schema.TextLine(
         title="Fieldset title",
         description="The __name__ will be used if this is not given",
-        required=False)
+        required=False,
+    )
 
-    description = schema.Text(title="Fieldset description",
-                              required=False)
+    description = schema.Text(title="Fieldset description", required=False)
 
     fields = schema.Object(title="Fields in this form", schema=IFields)
 
@@ -64,13 +64,10 @@ class IExtensibleForm(Interface):
     """
 
     groups = schema.List(
-        title='Groups',
-        value_type=schema.Object(
-            title="Group",
-            schema=IGroupFactory))
+        title="Groups", value_type=schema.Object(title="Group", schema=IGroupFactory)
+    )
 
-    default_fieldset_label = schema.TextLine(
-        title="Label of the default fieldset")
+    default_fieldset_label = schema.TextLine(title="Label of the default fieldset")
 
     def updateFields():
         """Called during form update to allow updating of self.fields

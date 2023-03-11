@@ -31,7 +31,6 @@ try:
     from z3c.form.interfaces import ITextLinesWidget
 
 except ImportError:
-
     # backport for z3c.form 1.9
 
     from z3c.form import converter
@@ -44,6 +43,7 @@ except ImportError:
 
     class TextLinesWidget(textarea.TextAreaWidget):
         """Input type sequence widget implementation."""
+
         zope.interface.implementsOnly(ITextLinesWidget)
 
     def TextLinesFieldWidget(field, request):
@@ -67,8 +67,8 @@ except ImportError:
             # if the value is the missing value, then an empty list is
             # produced.
             if value is self.field.missing_value:
-                return ''
-            return '\n'.join(str(v) for v in value)
+                return ""
+            return "\n".join(str(v) for v in value)
 
         def toFieldValue(self, value):
             """See interfaces.IDataConverter"""
@@ -81,6 +81,7 @@ except ImportError:
             if isinstance(valueType, tuple):
                 valueType = valueType[0]
             return collectionType(valueType(v) for v in value.split())
+
 
 # additional
 
@@ -96,8 +97,8 @@ class TextLinesSetConverter(TextLinesConverter):
         """Convert from text lines to HTML representation."""
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
-            return ''
-        return '\n'.join(str(v) for v in sorted(value))
+            return ""
+        return "\n".join(str(v) for v in sorted(value))
 
 
 @zope.component.adapter(
@@ -111,5 +112,5 @@ class TextLinesFrozenSetConverter(TextLinesConverter):
         """Convert from text lines to HTML representation."""
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
-            return ''
-        return '\n'.join(str(v) for v in sorted(value))
+            return ""
+        return "\n".join(str(v) for v in sorted(value))

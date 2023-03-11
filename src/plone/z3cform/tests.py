@@ -68,37 +68,33 @@ def setup_defaults():
     )
 
     component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('text_input.pt'), 'text/html'),
+        widget.WidgetTemplateFactory(getPath("text_input.pt"), "text/html"),
         (None, None, None, None, interfaces.ITextWidget),
         IPageTemplate,
         name=interfaces.INPUT_MODE,
     )
     component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('text_display.pt'), 'text/html'),
+        widget.WidgetTemplateFactory(getPath("text_display.pt"), "text/html"),
         (None, None, None, None, interfaces.ITextWidget),
         IPageTemplate,
         name=interfaces.DISPLAY_MODE,
     )
 
     component.provideAdapter(
-        widget.WidgetTemplateFactory(
-            getPath('checkbox_input.pt'), 'text/html'
-        ),
+        widget.WidgetTemplateFactory(getPath("checkbox_input.pt"), "text/html"),
         (None, None, None, None, interfaces.ICheckBoxWidget),
         IPageTemplate,
         name=interfaces.INPUT_MODE,
     )
     component.provideAdapter(
-        widget.WidgetTemplateFactory(
-            getPath('checkbox_display.pt'), 'text/html'
-        ),
+        widget.WidgetTemplateFactory(getPath("checkbox_display.pt"), "text/html"),
         (None, None, None, None, interfaces.ICheckBoxWidget),
         IPageTemplate,
         name=interfaces.DISPLAY_MODE,
     )
     # Submit Field Widget
     component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('submit_input.pt'), 'text/html'),
+        widget.WidgetTemplateFactory(getPath("submit_input.pt"), "text/html"),
         (None, None, None, None, interfaces.ISubmitWidget),
         IPageTemplate,
         name=interfaces.INPUT_MODE,
@@ -106,32 +102,26 @@ def setup_defaults():
 
     component.provideAdapter(converter.FieldDataConverter)
     component.provideAdapter(converter.FieldWidgetDataConverter)
-    component.provideAdapter(
-        button.ButtonAction, provides=interfaces.IButtonAction
-    )
+    component.provideAdapter(button.ButtonAction, provides=interfaces.IButtonAction)
     component.provideAdapter(button.ButtonActions)
     component.provideAdapter(button.ButtonActionHandler)
     component.provideAdapter(error.StandardErrorViewTemplate)
 
     # Make traversal work; register both the default traversable
     # adapter and the ++view++ namespace adapter
-    component.provideAdapter(
-        zope.traversing.adapters.DefaultTraversable, [None]
-    )
-    component.provideAdapter(
-        zope.traversing.namespace.view, (None, None), name='view'
-    )
+    component.provideAdapter(zope.traversing.adapters.DefaultTraversable, [None])
+    component.provideAdapter(zope.traversing.namespace.view, (None, None), name="view")
 
     # Setup ploneform macros, simlulating the ZCML directive
     plone.z3cform.templates.Macros.index = ViewPageTemplateFile(
-        plone.z3cform.templates.path('macros.pt')
+        plone.z3cform.templates.path("macros.pt")
     )
 
     component.provideAdapter(
         plone.z3cform.templates.Macros,
         (None, None),
         zope.publisher.interfaces.browser.IBrowserView,
-        name='ploneform-macros',
+        name="ploneform-macros",
     )
 
     # setup plone.z3cform templates
@@ -156,18 +146,18 @@ class P3FLayer(Layer):
     defaultBases = (z2.STARTUP,)
 
     def setUp(self):
-        self['configurationContext'] = context = zca.stackConfigurationContext(
-            self.get('configurationContext')
+        self["configurationContext"] = context = zca.stackConfigurationContext(
+            self.get("configurationContext")
         )
         import plone.z3cform
 
-        xmlconfig.file('testing.zcml', plone.z3cform, context=context)
+        xmlconfig.file("testing.zcml", plone.z3cform, context=context)
         import z3c.form
 
-        xmlconfig.file('configure.zcml', z3c.form, context=context)
+        xmlconfig.file("configure.zcml", z3c.form, context=context)
 
     def tearDown(self):
-        del self['configurationContext']
+        del self["configurationContext"]
 
 
 P3F_FIXTURE = P3FLayer()
@@ -179,9 +169,7 @@ FUNCTIONAL_TESTING = z2.FunctionalTesting(
 class Py23DocChecker(doctest.OutputChecker):
     def check_output(self, want, got, optionflags):
         if six.PY2:
-            got = re.sub(
-                'LocationError', 'zope.location.interfaces.LocationError', got
-            )
+            got = re.sub("LocationError", "zope.location.interfaces.LocationError", got)
             got = re.sub("u'(.*?)'", "'\\1'", got)
         return doctest.OutputChecker.check_output(self, want, got, optionflags)
 
@@ -218,31 +206,30 @@ class Z2TestCase(unittest.TestCase):
         self.assertEqual(form["foo_dict"]["bar"], "EGGS")
 
 
-
 def test_suite():
     layout_txt = layered(
-        doctest.DocFileSuite('layout.rst', checker=Py23DocChecker()),
+        doctest.DocFileSuite("layout.rst", checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
     inputs_txt = layered(
-        doctest.DocFileSuite('inputs.txt', checker=Py23DocChecker()),
+        doctest.DocFileSuite("inputs.txt", checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
     fieldsets_txt = layered(
-        doctest.DocFileSuite('fieldsets/README.rst', checker=Py23DocChecker()),
+        doctest.DocFileSuite("fieldsets/README.rst", checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
     traversal_txt = layered(
-        doctest.DocFileSuite('traversal.txt', checker=Py23DocChecker()),
+        doctest.DocFileSuite("traversal.txt", checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
     crud_readme_txt = layered(
-        doctest.DocFileSuite('crud/README.txt', checker=Py23DocChecker()),
+        doctest.DocFileSuite("crud/README.txt", checker=Py23DocChecker()),
         layer=zca.UNIT_TESTING,
     )
     crud_py = layered(
         doctest.DocTestSuite(
-            'plone.z3cform.crud.crud',
+            "plone.z3cform.crud.crud",
             setUp=testing.setUp,
             tearDown=testing.tearDown,
             checker=Py23DocChecker(),

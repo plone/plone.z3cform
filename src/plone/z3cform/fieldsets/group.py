@@ -18,15 +18,7 @@ class Group(group.Group):
 
 @implementer(IGroupFactory)
 class GroupFactory:
-
-    def __init__(
-        self,
-        __name__,
-        fields,
-        label=None,
-        description=None,
-        order=None
-    ):
+    def __init__(self, __name__, fields, label=None, description=None, order=None):
         self.__name__ = __name__
         self.fields = fields
         self.label = label or __name__
@@ -34,7 +26,7 @@ class GroupFactory:
         self.order = order
 
     def __call__(self, context, request, parentForm):
-        groupclass = getattr(parentForm, 'group_class', Group)
+        groupclass = getattr(parentForm, "group_class", Group)
         group = groupclass(context, request, parentForm)
         group.__name__ = self.__name__
         group.label = self.label

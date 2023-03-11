@@ -13,8 +13,7 @@ def order_key(adapter_tuple):
 
 @implementer(IFormExtender)
 class FormExtender:
-    """Base class for IFormExtender adapters with convenience APIs
-    """
+    """Base class for IFormExtender adapters with convenience APIs"""
 
     # Change this to prioritise
     order = 0
@@ -34,28 +33,27 @@ class FormExtender:
         utils.add(self.form, *args, **kwargs)
 
     def remove(self, field_name, prefix=None):
-        """Get rid of a field. The omitted field will be returned.
-        """
+        """Get rid of a field. The omitted field will be returned."""
 
         return utils.remove(self.form, field_name, prefix=prefix)
 
     def move(
-            self,
-            field_name,
-            before=None,
-            after=None,
-            prefix=None,
-            relative_prefix=None):
-        """Move the field with the given name before or after another field.
-        """
+        self, field_name, before=None, after=None, prefix=None, relative_prefix=None
+    ):
+        """Move the field with the given name before or after another field."""
 
-        utils.move(self.form, field_name, before=before, after=after,
-                   prefix=prefix, relative_prefix=relative_prefix)
+        utils.move(
+            self.form,
+            field_name,
+            before=before,
+            after=after,
+            prefix=prefix,
+            relative_prefix=relative_prefix,
+        )
 
 
 @implementer(IExtensibleForm)
 class ExtensibleForm(GroupForm):
-
     groups = []
     default_fieldset_label = _("Default")
 
@@ -64,9 +62,6 @@ class ExtensibleForm(GroupForm):
         super().update()
 
     def updateFields(self):
-        extenders = getAdapters(
-            (self.context, self.request, self),
-            IFormExtender
-        )
+        extenders = getAdapters((self.context, self.request, self), IFormExtender)
         for name, extender in sorted(extenders, key=order_key):
             extender.update()

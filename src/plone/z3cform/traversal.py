@@ -45,7 +45,6 @@ class FormWidgetTraversal:
         return self.context
 
     def traverse(self, name, ignored):
-
         form = self._prepareForm()
 
         # Since we cannot check security during traversal,
@@ -55,18 +54,19 @@ class FormWidgetTraversal:
         noLongerProvides(self.request, IDeferSecurityCheck)
 
         # If name begins with form.widgets., remove it
-        form_widgets_prefix = util.expandPrefix(
-            form.prefix) + util.expandPrefix(form.widgets.prefix)
+        form_widgets_prefix = util.expandPrefix(form.prefix) + util.expandPrefix(
+            form.widgets.prefix
+        )
         if name.startswith(form_widgets_prefix):
-            name = name[len(form_widgets_prefix):]
+            name = name[len(form_widgets_prefix) :]
 
         # Split string up into dotted segments and work through
         target = aq_base(form)
-        parts = name.split('.')
+        parts = name.split(".")
         while len(parts) > 0:
             part = parts.pop(0)
             # i.e. a z3c.form.widget.MultiWidget
-            if isinstance(getattr(target, 'widgets', None), list):
+            if isinstance(getattr(target, "widgets", None), list):
                 try:
                     # part should be integer index in list, look it up
                     target = target.widgets[int(part)]
@@ -78,8 +78,7 @@ class FormWidgetTraversal:
                     # DataGridField, which appends 'AA' and 'TT' rows to
                     # it's widget list.
                     full_name = util.expandPrefix(target.prefix) + part
-                    filtered = [w for w in target.widgets
-                                if w.name == full_name]
+                    filtered = [w for w in target.widgets if w.name == full_name]
                     if len(filtered) == 1:
                         target = filtered[0]
                         # we have to pop "widgets" from parts here
@@ -87,15 +86,11 @@ class FormWidgetTraversal:
                         parts.remove("widgets")
                     else:
                         raise TraversalError("'" + part + "' not valid index")
-            elif hasattr(target, 'widgets'):  # Either base form, or subform
+            elif hasattr(target, "widgets"):  # Either base form, or subform
                 # Check to see if we can find a "Behaviour.widget"
                 new_target = None
                 if len(parts) > 0:
-                    new_target = self._form_traverse(
-                        target,
-                        part +
-                        '.' +
-                        parts[0])
+                    new_target = self._form_traverse(target, part + "." + parts[0])
 
                 if new_target is not None:
                     # Remove widget name from stack too
@@ -106,15 +101,13 @@ class FormWidgetTraversal:
 
                 target = new_target
             # subform-containing widget, only option is to go into subform
-            elif hasattr(target, 'subform'):
-                if part == 'widgets':
+            elif hasattr(target, "subform"):
+                if part == "widgets":
                     target = target.subform
                 else:
                     target = None
             else:
-                raise TraversalError(
-                    'Cannot traverse through ' +
-                    target.__repr__())
+                raise TraversalError("Cannot traverse through " + target.__repr__())
 
             # Could not traverse from target to part
             if target is None:
@@ -132,7 +125,7 @@ class FormWidgetTraversal:
         if name in form.widgets:
             return form.widgets.get(name)
         # If there are no groups, give up now
-        if getattr(aq_base(form), 'groups', None) is None:
+        if getattr(aq_base(form), "groups", None) is None:
             return None
         for group in form.groups:
             if group.widgets and name in group.widgets:

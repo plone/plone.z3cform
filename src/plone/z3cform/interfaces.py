@@ -19,12 +19,10 @@ class IFormWrapper(Interface):
     """
 
     def update():
-        """We use the content provider update/render couple.
-        """
+        """We use the content provider update/render couple."""
 
     def render():
-        """We use the content provider update/render couple.
-        """
+        """We use the content provider update/render couple."""
 
     form = Attribute("The form class. Should be set at class level")
 
@@ -32,15 +30,14 @@ class IFormWrapper(Interface):
         title="Instance of the form being rendered",
         description="Set by the wrapper code during __init__()",
         readonly=True,
-        schema=IForm
+        schema=IForm,
     )
 
     index = schema.Object(
         title="Page template instance",
-        description=("If not set, a template will be found "
-                     "via an adapter lookup"),
+        description=("If not set, a template will be found " "via an adapter lookup"),
         required=False,
-        schema=IPageTemplate
+        schema=IPageTemplate,
     )
 
 
@@ -61,9 +58,8 @@ class IDeferSecurityCheck(Interface):
 
 class ISubformFactory(Interface):
     """Factory that will instantiate our subforms for ObjectWidget.
-       BBB: backported from z3c.form 3.6.x
+    BBB: backported from z3c.form 3.6.x
     """
 
     def __call__():
-        """Return a default object created to be populated.
-        """
+        """Return a default object created to be populated."""
