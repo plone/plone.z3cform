@@ -1,7 +1,8 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:z3c="http://namespaces.zope.org/z3c"
-    i18n_domain="z3c.form">
+    i18n_domain="z3c.form"
+    >
 
   <class class=".textlines.TextLinesWidget">
     <require
@@ -13,21 +14,19 @@
   <!-- this widget is not configured for any field by default -->
 
   <z3c:widgetTemplate
-      mode="display"
       widget="plone.z3cform.textlines.textlines.ITextLinesWidget"
-      layer="z3c.form.interfaces.IFormLayer"
       template="textlines_display.pt"
+      layer="z3c.form.interfaces.IFormLayer"
+      mode="display"
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="plone.z3cform.textlines.textlines.ITextLinesWidget"
-      layer="z3c.form.interfaces.IFormLayer"
       template="textlines_input.pt"
+      layer="z3c.form.interfaces.IFormLayer"
+      mode="input"
       />
 
-  <adapter
-      factory=".textlines.TextLinesConverter"
-      />
+  <adapter factory=".textlines.TextLinesConverter" />
 
 </configure>
