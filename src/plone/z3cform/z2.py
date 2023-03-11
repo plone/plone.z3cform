@@ -4,7 +4,6 @@ from zope.publisher.browser import isCGI_NAME
 from zope.publisher.interfaces.browser import IBrowserApplicationRequest
 from ZPublisher import HTTPRequest
 
-import six
 import z3c.form.interfaces
 
 

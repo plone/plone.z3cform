@@ -286,7 +286,7 @@ class EditForm(form.Form):
                     self.context.remove((id, item))
                 except ConflictError:
                     raise
-                except:
+                except Exception:
                     # In case an exception is raised, we'll catch it
                     # and notify the user; in general, this is
                     # unexpected behavior:

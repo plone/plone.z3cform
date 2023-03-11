@@ -2,8 +2,6 @@ from plone.z3cform.fieldsets.group import GroupFactory
 from z3c.form.field import Fields
 from z3c.form.util import expandPrefix
 
-import six
-
 
 def add(form, *args, **kwargs):
     """Add one or more fields. Keyword argument 'index' can be used to

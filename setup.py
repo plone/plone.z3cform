@@ -1,22 +1,26 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
-
-import os
 
 
 __version__ = "2.0.1.dev0"
 
 
+def read(path):
+    with open(path) as file_handle:
+        return file_handle.read()
+
+
 def description():
-    join = lambda *paths: os.path.join("src", "plone", "z3cform", *paths)
+    base_path = Path(".") / "src" / "plone" / "z3cform"
     return (
-        open("README.rst").read()
+        read("README.rst")
         + "\n"
-        + open(join("fieldsets", "README.rst")).read()
+        + read(base_path / "fieldsets" / "README.rst")
         + "\n"
-        + open(join("crud", "README.txt")).read()
+        + read(base_path / "crud" / "README.txt")
         + "\n"
-        + open("CHANGES.rst").read()
+        + read("CHANGES.rst")
         + "\n"
     )
 
