@@ -16,7 +16,7 @@ from zope.traversing.interfaces import TraversalError
 
 @adapter(IForm, IBrowserRequest)
 @implementer(ITraversable)
-class FormWidgetTraversal(object):
+class FormWidgetTraversal:
     """Allow traversal to widgets via the ++widget++ namespace. The context
     is the from itself (used when the layout wrapper view is not used).
 

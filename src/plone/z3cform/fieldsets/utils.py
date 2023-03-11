@@ -17,7 +17,7 @@ def add(form, *args, **kwargs):
 
     new_fields = Fields(*args, **kwargs)
 
-    if not group or isinstance(group, six.string_types):
+    if not group or isinstance(group, str):
         source = find_source(form, group=group)
     else:
         source = group
@@ -67,7 +67,7 @@ def move(
         field_name = expandPrefix(prefix) + field_name
 
     if before and after:
-        raise ValueError(u"Only one of 'before' or 'after' is allowed")
+        raise ValueError("Only one of 'before' or 'after' is allowed")
 
     offset = 0
     if after:

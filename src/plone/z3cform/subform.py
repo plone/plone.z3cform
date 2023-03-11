@@ -55,14 +55,14 @@ class ObjectSubForm(form.BaseForm):
 
         self.setupFields()
 
-        super(ObjectSubForm, self).update()
+        super().update()
 
     def getContent(self):
         return self.__parent__._value
 
 
 @zope.interface.implementer(ISubformFactory)
-class SubformAdapter(object):
+class SubformAdapter:
     """Most basic-default subform factory adapter"""
     zope.component.adapts(zope.interface.Interface, #widget value
                           interfaces.IFormLayer,    #request

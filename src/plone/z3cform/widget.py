@@ -11,7 +11,7 @@ class SingleCheckBoxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
 
     def update(self):
         self.ignoreContext = True
-        super(SingleCheckBoxWidget, self).update()
+        super().update()
 
     def updateTerms(self):
         # The default implementation would render "selected" as a
@@ -19,7 +19,7 @@ class SingleCheckBoxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
         if self.terms is None:
             self.terms = z3c.form.term.Terms()
             self.terms.terms = vocabulary.SimpleVocabulary((
-                vocabulary.SimpleTerm(True, 'selected', u''),
+                vocabulary.SimpleTerm(True, 'selected', ''),
             ))
         return self.terms
 
@@ -30,14 +30,12 @@ class SingleCheckBoxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
             return default
         else:
             try:
-                return super(
-                    SingleCheckBoxWidget,
-                    self).extract(
+                return super().extract(
                     default,
                     setErrors=setErrors)
             except TypeError:
                 # for z3c.form <= 1.9.0
-                return super(SingleCheckBoxWidget, self).extract(default)
+                return super().extract(default)
 
 
 @zope.component.adapter(

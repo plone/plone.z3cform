@@ -25,7 +25,7 @@ class FormWrapper(BrowserView):
     request_layer = z3c.form.interfaces.IFormLayer
 
     def __init__(self, context, request):
-        super(FormWrapper, self).__init__(context, request)
+        super().__init__(context, request)
         if self.form is not None:
             self.form_instance = self.form(
                 aq_inner(self.context), self.request)
@@ -73,7 +73,7 @@ class FormWrapper(BrowserView):
         (self, request) to IPageTemplate and use that instead.
         """
         if self.request.response.getStatus() in (302, 303):
-            return u""
+            return ""
         if self.index is None:
             template = zope.component.getMultiAdapter(
                 (self, self.request), IPageTemplate)

@@ -24,4 +24,4 @@ class FileUploadDataConverter(z3c.form.converter.FileUploadDataConverter):
             fieldstorage.filename = value.filename
             value = zope.publisher.browser.FileUpload(fieldstorage)
 
-        return super(FileUploadDataConverter, self).toFieldValue(value)
+        return super().toFieldValue(value)

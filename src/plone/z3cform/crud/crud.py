@@ -72,7 +72,7 @@ class ICrudForm(interface.Interface):
 
 
 @interface.implementer(ICrudForm)
-class AbstractCrudForm(object):
+class AbstractCrudForm:
     """The AbstractCrudForm is not a form but implements methods
     necessary to comply with the ``ICrudForm`` interface:
 
@@ -111,7 +111,7 @@ class CrudBatchView(BatchView):
 
     def make_link(self, pagenumber):
         start = max(pagenumber - 1, 0)
-        return "%s?%spage=%s" % (self.request.getURL(), self.prefix, start)
+        return f"{self.request.getURL()}?{self.prefix}page={start}"
 
 
 class EditSubForm(form.EditForm):
@@ -155,7 +155,7 @@ class EditSubForm(form.EditForm):
         select_field = field.Field(
             zope.schema.Bool(__name__='select',
                              required=False,
-                             title=_(u'select')))
+                             title=_('select')))
         select_field.widgetFactory[INPUT_MODE] = singlecheckboxwidget_factory
         return select_field
 
@@ -194,7 +194,7 @@ class EditSubForm(form.EditForm):
 
 
 class EditForm(form.Form):
-    label = _(u"Edit")
+    label = _("Edit")
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-table.pt')
 
     # exposes the edit sub form for your own derivatives
@@ -207,7 +207,7 @@ class EditForm(form.Form):
 
     def update(self):
         self._update_subforms()
-        super(EditForm, self).update()
+        super().update()
 
     def _update_subforms(self):
         self.subforms = []
@@ -234,9 +234,9 @@ class EditForm(form.Form):
                              name='edit',
                              condition=lambda form: form.context.update_schema)
     def handle_edit(self, action):
-        success = _(u"Successfully updated")
-        partly_success = _(u"Some of your changes could not be applied.")
-        status = no_changes = _(u"No changes made.")
+        success = _("Successfully updated")
+        partly_success = _("Some of your changes could not be applied.")
+        status = no_changes = _("No changes made.")
         for subform in self.subforms:
             # With the ``extractData()`` call, validation will occur,
             # and errors will be stored on the widgets amongst other
@@ -274,7 +274,7 @@ class EditForm(form.Form):
     def handle_delete(self, action):
         selected = self.selected_items()
         if selected:
-            self.status = _(u"Successfully deleted items.")
+            self.status = _("Successfully deleted items.")
             for id, item in selected:
                 try:
                     self.context.remove((id, item))
@@ -284,14 +284,14 @@ class EditForm(form.Form):
                     # In case an exception is raised, we'll catch it
                     # and notify the user; in general, this is
                     # unexpected behavior:
-                    self.status = _(u'Unable to remove one or more items.')
+                    self.status = _('Unable to remove one or more items.')
                     break
 
             # We changed the amount of entries, so we update the subforms
             # again.
             self._update_subforms()
         else:
-            self.status = _(u"Please select items to delete.")
+            self.status = _("Please select items to delete.")
 
     def selected_items(self):
         tuples = []
@@ -328,7 +328,7 @@ class EditForm(form.Form):
 class AddForm(form.Form):
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-add.pt')
 
-    label = _(u"Add")
+    label = _("Add")
     ignoreContext = True
     ignoreRequest = True
 
@@ -353,10 +353,10 @@ class AddForm(form.Form):
             self.status = e
         else:
             zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(item))
-            self.status = _(u"Item added successfully.")
+            self.status = _("Item added successfully.")
 
 
-class NullForm(object):
+class NullForm:
 
     def __init__(self, context, request):
         self.context = context
@@ -372,13 +372,13 @@ class NullForm(object):
 
 class CrudForm(AbstractCrudForm, form.Form):
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-master.pt')
-    description = u''
+    description = ''
 
     editform_factory = EditForm
     addform_factory = AddForm
 
     def update(self):
-        super(CrudForm, self).update()
+        super().update()
 
         addform = self.addform_factory(self, self.request)
         editform = self.editform_factory(self, self.request)

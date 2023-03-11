@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.testing import Layer
 from plone.testing import layered
 from plone.testing import z2
@@ -192,22 +191,22 @@ class Z2TestCase(unittest.TestCase):
             },
             "utf-8",
         )
-        self.assertIsInstance(form["foo"], six.text_type)
-        self.assertEqual(form["foo"], u"foø")
+        self.assertIsInstance(form["foo"], str)
+        self.assertEqual(form["foo"], "foø")
         self.assertIsInstance(form["foo_list"], list)
-        self.assertIsInstance(form["foo_list"][0], six.text_type)
-        self.assertIsInstance(form["foo_list"][1], six.text_type)
-        self.assertEqual(form["foo_list"][0], u"foø")
+        self.assertIsInstance(form["foo_list"][0], str)
+        self.assertIsInstance(form["foo_list"][1], str)
+        self.assertEqual(form["foo_list"][0], "foø")
         self.assertEqual(form["foo_list"][1], "SPAM")
         self.assertIsInstance(form["foo_tuple"], tuple)
-        self.assertIsInstance(form["foo_tuple"][0], six.text_type)
-        self.assertIsInstance(form["foo_tuple"][1], six.text_type)
-        self.assertEqual(form["foo_tuple"][0], u"foø")
+        self.assertIsInstance(form["foo_tuple"][0], str)
+        self.assertIsInstance(form["foo_tuple"][1], str)
+        self.assertEqual(form["foo_tuple"][0], "foø")
         self.assertEqual(form["foo_tuple"][1], "HAM")
         self.assertIsInstance(form["foo_dict"], dict)
-        self.assertIsInstance(form["foo_dict"]["foo"], six.text_type)
-        self.assertIsInstance(form["foo_dict"]["bar"], six.text_type)
-        self.assertEqual(form["foo_dict"]["foo"], u"foø")
+        self.assertIsInstance(form["foo_dict"]["foo"], str)
+        self.assertIsInstance(form["foo_dict"]["bar"], str)
+        self.assertEqual(form["foo_dict"]["foo"], "foø")
         self.assertEqual(form["foo_dict"]["bar"], "EGGS")
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.z3cform import MessageFactory as _
 from plone.z3cform.fieldsets import utils
 from plone.z3cform.fieldsets.interfaces import IExtensibleForm
@@ -13,7 +12,7 @@ def order_key(adapter_tuple):
 
 
 @implementer(IFormExtender)
-class FormExtender(object):
+class FormExtender:
     """Base class for IFormExtender adapters with convenience APIs
     """
 
@@ -58,11 +57,11 @@ class FormExtender(object):
 class ExtensibleForm(GroupForm):
 
     groups = []
-    default_fieldset_label = _(u"Default")
+    default_fieldset_label = _("Default")
 
     def update(self):
         self.updateFields()
-        super(ExtensibleForm, self).update()
+        super().update()
 
     def updateFields(self):
         extenders = getAdapters(

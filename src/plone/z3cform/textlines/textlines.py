@@ -67,8 +67,8 @@ except ImportError:
             # if the value is the missing value, then an empty list is
             # produced.
             if value is self.field.missing_value:
-                return u''
-            return u'\n'.join(six.text_type(v) for v in value)
+                return ''
+            return '\n'.join(str(v) for v in value)
 
         def toFieldValue(self, value):
             """See interfaces.IDataConverter"""
@@ -96,8 +96,8 @@ class TextLinesSetConverter(TextLinesConverter):
         """Convert from text lines to HTML representation."""
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
-            return u''
-        return u'\n'.join(six.text_type(v) for v in sorted(value))
+            return ''
+        return '\n'.join(str(v) for v in sorted(value))
 
 
 @zope.component.adapter(
@@ -111,5 +111,5 @@ class TextLinesFrozenSetConverter(TextLinesConverter):
         """Convert from text lines to HTML representation."""
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
-            return u''
-        return u'\n'.join(six.text_type(v) for v in sorted(value))
+            return ''
+        return '\n'.join(str(v) for v in sorted(value))

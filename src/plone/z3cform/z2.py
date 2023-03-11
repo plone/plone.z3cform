@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from ZPublisher import HTTPRequest
 from zope import interface
 from zope.i18n.interfaces import IUserPreferredCharsets
@@ -40,12 +39,12 @@ def processInputs(request, charsets=None):
 
     for name, value in request.form.items():
         if not (isCGI_NAME(name) or name.startswith('HTTP_')):
-            if isinstance(value, six.binary_type):
+            if isinstance(value, bytes):
                 request.form[name] = _decode(value, charsets)
             elif isinstance(value, (list, tuple,)):
                 newValue = []
                 for val in value:
-                    if isinstance(val, six.binary_type):
+                    if isinstance(val, bytes):
                         val = _decode(val, charsets)
                     newValue.append(val)
 
@@ -71,8 +70,8 @@ def _recursive_decode(value, charset):
         return tuple(_recursive_decode(v, charset) for v in value)
     elif isinstance(value, dict):
         return {k: _recursive_decode(v, charset) for k, v in value.items()}
-    elif isinstance(value, six.binary_type):
-        return six.text_type(value, charset, 'replace')
+    elif isinstance(value, bytes):
+        return str(value, charset, 'replace')
     return value
 
 

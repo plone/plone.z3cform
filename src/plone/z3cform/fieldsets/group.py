@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.z3cform.fieldsets.interfaces import IDescriptiveGroup
 from plone.z3cform.fieldsets.interfaces import IGroupFactory
 from z3c.form import group
@@ -7,9 +6,9 @@ from zope.interface import implementer
 
 @implementer(IDescriptiveGroup)
 class Group(group.Group):
-    __name__ = u""
-    label = u""
-    description = u""
+    __name__ = ""
+    label = ""
+    description = ""
     order = 0
 
     def getContent(self):
@@ -18,7 +17,7 @@ class Group(group.Group):
 
 
 @implementer(IGroupFactory)
-class GroupFactory(object):
+class GroupFactory:
 
     def __init__(
         self,
