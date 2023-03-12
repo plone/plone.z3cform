@@ -1,4 +1,3 @@
-from ZODB.POSException import ConflictError
 from plone.batching import Batch
 from plone.batching.browser import BatchView
 from plone.z3cform import MessageFactory as _
@@ -6,9 +5,13 @@ from plone.z3cform.widget import singlecheckboxwidget_factory
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
-from z3c.form.interfaces import DISPLAY_MODE, INPUT_MODE, NOVALUE
+from z3c.form.interfaces import DISPLAY_MODE
+from z3c.form.interfaces import INPUT_MODE
+from z3c.form.interfaces import NOVALUE
+from ZODB.POSException import ConflictError
 from zope import interface
 from zope.browserpage import viewpagetemplatefile
+
 import sys
 import z3c.form.widget
 import zope.event
@@ -17,22 +20,25 @@ import zope.publisher.browser
 
 
 class ICrudForm(interface.Interface):
-
     update_schema = interface.Attribute(
-        "Editable part of the schema for use in the update form.")
+        "Editable part of the schema for use in the update form."
+    )
 
     view_schema = interface.Attribute(
-        "Viewable (only) part of the schema for use in the update form.")
+        "Viewable (only) part of the schema for use in the update form."
+    )
 
     add_schema = interface.Attribute(
-        "Schema for use in the add form; defaults to ``update_schema``.")
+        "Schema for use in the add form; defaults to ``update_schema``."
+    )
 
     editform_factory = interface.Attribute("Factory used for the edit form.")
 
     addform_factory = interface.Attribute("Factory used for the add form.")
 
     batch_size = interface.Attribute(
-        "Set this to a value greater than 0 to display n items per page.")
+        "Set this to a value greater than 0 to display n items per page."
+    )
 
     def get_items():
         """Subclasses must a list of all items to edit.
@@ -63,16 +69,14 @@ class ICrudForm(interface.Interface):
         """
 
     def before_update(item, data):
-        """A hook that gets called before an item is updated.
-        """
+        """A hook that gets called before an item is updated."""
 
     def link(item, field):
-        """Return a URL for this item's field or None.
-        """
+        """Return a URL for this item's field or None."""
 
 
 @interface.implementer(ICrudForm)
-class AbstractCrudForm(object):
+class AbstractCrudForm:
     """The AbstractCrudForm is not a form but implements methods
     necessary to comply with the ``ICrudForm`` interface:
 
@@ -107,19 +111,19 @@ class AbstractCrudForm(object):
 
 
 class CrudBatchView(BatchView):
-    prefix = ''
+    prefix = ""
 
     def make_link(self, pagenumber):
         start = max(pagenumber - 1, 0)
-        return "%s?%spage=%s" % (self.request.getURL(), self.prefix, start)
+        return f"{self.request.getURL()}?{self.prefix}page={start}"
 
 
 class EditSubForm(form.EditForm):
-    template = viewpagetemplatefile.ViewPageTemplateFile('crud-row.pt')
+    template = viewpagetemplatefile.ViewPageTemplateFile("crud-row.pt")
 
     @property
     def prefix(self):
-        return 'crud-edit.%s.' % self.content_id
+        return "crud-edit.%s." % self.content_id
 
     # These are set by the parent form
     content = None
@@ -142,8 +146,8 @@ class EditSubForm(form.EditForm):
                 f.mode = DISPLAY_MODE
                 # This is to allow a field to appear in both view
                 # and edit mode at the same time:
-                if not f.__name__.startswith('view_'):
-                    f.__name__ = 'view_' + f.__name__
+                if not f.__name__.startswith("view_"):
+                    f.__name__ = "view_" + f.__name__
             fields += view_fields
 
         return fields
@@ -153,9 +157,8 @@ class EditSubForm(form.EditForm):
 
     def _select_field(self):
         select_field = field.Field(
-            zope.schema.Bool(__name__='select',
-                             required=False,
-                             title=_(u'select')))
+            zope.schema.Bool(__name__="select", required=False, title=_("select"))
+        )
         select_field.widgetFactory[INPUT_MODE] = singlecheckboxwidget_factory
         return select_field
 
@@ -169,7 +172,7 @@ class EditSubForm(form.EditForm):
         seen = set()
         for name, widget in list(widgets):
             if widget.mode == INPUT_MODE:
-                view_widget = self.widgets.get('view_%s' % name)
+                view_widget = self.widgets.get("view_%s" % name)
                 if view_widget is not None:
                     combined.append((widget, view_widget))
                     seen.add(view_widget)
@@ -194,20 +197,20 @@ class EditSubForm(form.EditForm):
 
 
 class EditForm(form.Form):
-    label = _(u"Edit")
-    template = viewpagetemplatefile.ViewPageTemplateFile('crud-table.pt')
+    label = _("Edit")
+    template = viewpagetemplatefile.ViewPageTemplateFile("crud-table.pt")
 
     # exposes the edit sub form for your own derivatives
     editsubform_factory = EditSubForm
 
     @property
     def prefix(self):
-        parent_prefix = getattr(self.context, 'prefix', '')
-        return 'crud-edit.' + parent_prefix
+        parent_prefix = getattr(self.context, "prefix", "")
+        return "crud-edit." + parent_prefix
 
     def update(self):
         self._update_subforms()
-        super(EditForm, self).update()
+        super().update()
 
     def _update_subforms(self):
         self.subforms = []
@@ -222,7 +225,7 @@ class EditForm(form.Form):
     def batch(self):
         items = self.context.get_items()
         batch_size = self.context.batch_size or sys.maxsize
-        page = int(self.request.get('%spage' % self.prefix, 0))
+        page = int(self.request.get("%spage" % self.prefix, 0))
         return Batch.fromPagenumber(items, batch_size, page + 1)
 
     def render_batch_navigation(self):
@@ -230,13 +233,15 @@ class EditForm(form.Form):
         bv.prefix = self.prefix
         return bv(self.batch)
 
-    @button.buttonAndHandler(_('Apply changes'),
-                             name='edit',
-                             condition=lambda form: form.context.update_schema)
+    @button.buttonAndHandler(
+        _("Apply changes"),
+        name="edit",
+        condition=lambda form: form.context.update_schema,
+    )
     def handle_edit(self, action):
-        success = _(u"Successfully updated")
-        partly_success = _(u"Some of your changes could not be applied.")
-        status = no_changes = _(u"No changes made.")
+        success = _("Successfully updated")
+        partly_success = _("Some of your changes could not be applied.")
+        status = no_changes = _("No changes made.")
         for subform in self.subforms:
             # With the ``extractData()`` call, validation will occur,
             # and errors will be stored on the widgets amongst other
@@ -252,7 +257,7 @@ class EditForm(form.Form):
                 elif status is success:
                     status = partly_success
                 continue
-            del data['select']
+            del data["select"]
             self.context.before_update(subform.content, data)
             changes = subform.applyChanges(data)
             if changes:
@@ -267,36 +272,37 @@ class EditForm(form.Form):
                     if widget.mode == DISPLAY_MODE:
                         widget.update()
                         zope.event.notify(
-                            z3c.form.widget.AfterWidgetUpdateEvent(widget))
+                            z3c.form.widget.AfterWidgetUpdateEvent(widget)
+                        )
         self.status = status
 
-    @button.buttonAndHandler(_('Delete'), name='delete')
+    @button.buttonAndHandler(_("Delete"), name="delete")
     def handle_delete(self, action):
         selected = self.selected_items()
         if selected:
-            self.status = _(u"Successfully deleted items.")
+            self.status = _("Successfully deleted items.")
             for id, item in selected:
                 try:
                     self.context.remove((id, item))
                 except ConflictError:
                     raise
-                except:
+                except Exception:
                     # In case an exception is raised, we'll catch it
                     # and notify the user; in general, this is
                     # unexpected behavior:
-                    self.status = _(u'Unable to remove one or more items.')
+                    self.status = _("Unable to remove one or more items.")
                     break
 
             # We changed the amount of entries, so we update the subforms
             # again.
             self._update_subforms()
         else:
-            self.status = _(u"Please select items to delete.")
+            self.status = _("Please select items to delete.")
 
     def selected_items(self):
         tuples = []
         for subform in self.subforms:
-            data = subform.widgets['select'].extract()
+            data = subform.widgets["select"].extract()
             if not data or data is NOVALUE:
                 continue
             else:
@@ -310,38 +316,35 @@ class EditForm(form.Form):
         to not need plone stack in testing-setup
         """
         current_base_url = self.request.get(
-            'ACTUAL_URL',
+            "ACTUAL_URL",
             self.request.get(
-                'VIRTUAL_URL',
-                self.request.get(
-                    'URL',
-                    self.context.context.absolute_url()
-                )
-            )
+                "VIRTUAL_URL",
+                self.request.get("URL", self.context.context.absolute_url()),
+            ),
         )
-        query = self.request.get('QUERY_STRING', None)
+        query = self.request.get("QUERY_STRING", None)
         if query:
-            return current_base_url + '?' + query
+            return current_base_url + "?" + query
         return current_base_url
 
 
 class AddForm(form.Form):
-    template = viewpagetemplatefile.ViewPageTemplateFile('crud-add.pt')
+    template = viewpagetemplatefile.ViewPageTemplateFile("crud-add.pt")
 
-    label = _(u"Add")
+    label = _("Add")
     ignoreContext = True
     ignoreRequest = True
 
     @property
     def prefix(self):
-        parent_prefix = getattr(self.context, 'prefix', '')
-        return 'crud-add.' + parent_prefix
+        parent_prefix = getattr(self.context, "prefix", "")
+        return "crud-add." + parent_prefix
 
     @property
     def fields(self):
         return field.Fields(self.context.add_schema)
 
-    @button.buttonAndHandler(_('Add'), name='add')
+    @button.buttonAndHandler(_("Add"), name="add")
     def handle_add(self, action):
         data, errors = self.extractData()
         if errors:
@@ -353,11 +356,10 @@ class AddForm(form.Form):
             self.status = e
         else:
             zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(item))
-            self.status = _(u"Item added successfully.")
+            self.status = _("Item added successfully.")
 
 
-class NullForm(object):
-
+class NullForm:
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -366,19 +368,20 @@ class NullForm(object):
         pass
 
     def render(self):
-        return ''
+        return ""
+
     __call__ = render
 
 
 class CrudForm(AbstractCrudForm, form.Form):
-    template = viewpagetemplatefile.ViewPageTemplateFile('crud-master.pt')
-    description = u''
+    template = viewpagetemplatefile.ViewPageTemplateFile("crud-master.pt")
+    description = ""
 
     editform_factory = EditForm
     addform_factory = AddForm
 
     def update(self):
-        super(CrudForm, self).update()
+        super().update()
 
         addform = self.addform_factory(self, self.request)
         editform = self.editform_factory(self, self.request)

@@ -2,8 +2,6 @@ from plone.z3cform.fieldsets.group import GroupFactory
 from z3c.form.field import Fields
 from z3c.form.util import expandPrefix
 
-import six
-
 
 def add(form, *args, **kwargs):
     """Add one or more fields. Keyword argument 'index' can be used to
@@ -12,12 +10,12 @@ def add(form, *args, **kwargs):
     created if it doesn't exist.
     """
 
-    index = kwargs.pop('index', None)
-    group = kwargs.pop('group', None)
+    index = kwargs.pop("index", None)
+    group = kwargs.pop("group", None)
 
     new_fields = Fields(*args, **kwargs)
 
-    if not group or isinstance(group, six.string_types):
+    if not group or isinstance(group, str):
         source = find_source(form, group=group)
     else:
         source = group
@@ -30,14 +28,15 @@ def add(form, *args, **kwargs):
             source.fields += new_fields
         else:
             field_names = list(source.fields.keys())
-            source.fields = source.fields.select(*field_names[:index]) + \
-                new_fields + \
-                source.fields.select(*field_names[index:])
+            source.fields = (
+                source.fields.select(*field_names[:index])
+                + new_fields
+                + source.fields.select(*field_names[index:])
+            )
 
 
 def remove(form, field_name, prefix=None):
-    """Get rid of a field. The omitted field will be returned.
-    """
+    """Get rid of a field. The omitted field will be returned."""
 
     if prefix:
         field_name = expandPrefix(prefix) + field_name
@@ -54,20 +53,13 @@ def remove(form, field_name, prefix=None):
                 return field
 
 
-def move(
-        form,
-        field_name,
-        before=None,
-        after=None,
-        prefix=None,
-        relative_prefix=None):
-    """Move the field with the given name before or after another field.
-    """
+def move(form, field_name, before=None, after=None, prefix=None, relative_prefix=None):
+    """Move the field with the given name before or after another field."""
     if prefix:
         field_name = expandPrefix(prefix) + field_name
 
     if before and after:
-        raise ValueError(u"Only one of 'before' or 'after' is allowed")
+        raise ValueError("Only one of 'before' or 'after' is allowed")
 
     offset = 0
     if after:
@@ -79,14 +71,14 @@ def move(
 
     if field_name not in form.fields:
         found = False
-        for group in getattr(form, 'groups', []):
+        for group in getattr(form, "groups", []):
             if field_name in group.fields:
                 found = True
                 break
         if not found:
             raise KeyError("Field %s not found" % field_name)
 
-    if relative != '*' and relative not in form.fields:
+    if relative != "*" and relative not in form.fields:
         found = False
         for group in form.groups:
             if relative in group.fields:
@@ -102,7 +94,7 @@ def move(
 
     if relative in form.fields:
         index = list(form.fields.keys()).index(relative)
-    elif orig_relative == '*' and relative_prefix is None:
+    elif orig_relative == "*" and relative_prefix is None:
         if before:
             index = 0
         else:
@@ -112,7 +104,7 @@ def move(
             if relative in group.fields:
                 index = list(group.fields.keys()).index(relative)
                 break
-            elif orig_relative == '*' and relative_prefix == group.prefix:
+            elif orig_relative == "*" and relative_prefix == group.prefix:
                 if before:
                     index = 0
                 else:

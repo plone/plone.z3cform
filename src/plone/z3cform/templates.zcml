@@ -1,24 +1,25 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="plone.z3cform">
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="plone.z3cform"
+    >
 
   <!-- configure chameleon templates if available -->
   <configure zcml:condition="installed five.pt">
-      <include package="five.pt"/>
+    <include package="five.pt" />
   </configure>
 
   <configure zcml:condition="installed Products.PageTemplates">
-      <include package="Products.PageTemplates" />
+    <include package="Products.PageTemplates" />
   </configure>
 
   <browser:page
       name="ploneform-macros"
       for="*"
       class=".templates.Macros"
-      template="pagetemplates/macros.pt"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
+      template="pagetemplates/macros.pt"
       permission="zope.Public"
       />
 

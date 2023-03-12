@@ -1,23 +1,21 @@
-# -*- coding: utf-8 -*-
-from ZPublisher import HTTPRequest
 from zope import interface
 from zope.i18n.interfaces import IUserPreferredCharsets
 from zope.publisher.browser import isCGI_NAME
 from zope.publisher.interfaces.browser import IBrowserApplicationRequest
+from ZPublisher import HTTPRequest
 
-import six
 import z3c.form.interfaces
 
 
 class IFixedUpRequest(interface.Interface):
-    """Marker interface used to ensure we don't fix up the request twice
-    """
+    """Marker interface used to ensure we don't fix up the request twice"""
 
 
 class IProcessedRequest(interface.Interface):
     """Marker interface used to ensure we don't process the request inputs
     twice.
     """
+
 
 # Safer versions of the functions in Products.Five.browser.decode
 
@@ -34,18 +32,24 @@ def processInputs(request, charsets=None):
     if charsets is None:
         envadapter = IUserPreferredCharsets(request, None)
         if envadapter is None:
-            charsets = ['utf-8']
+            charsets = ["utf-8"]
         else:
-            charsets = envadapter.getPreferredCharsets() or ['utf-8']
+            charsets = envadapter.getPreferredCharsets() or ["utf-8"]
 
     for name, value in request.form.items():
-        if not (isCGI_NAME(name) or name.startswith('HTTP_')):
-            if isinstance(value, six.binary_type):
+        if not (isCGI_NAME(name) or name.startswith("HTTP_")):
+            if isinstance(value, bytes):
                 request.form[name] = _decode(value, charsets)
-            elif isinstance(value, (list, tuple,)):
+            elif isinstance(
+                value,
+                (
+                    list,
+                    tuple,
+                ),
+            ):
                 newValue = []
                 for val in value:
-                    if isinstance(val, six.binary_type):
+                    if isinstance(val, bytes):
                         val = _decode(val, charsets)
                     newValue.append(val)
 
@@ -63,16 +67,15 @@ def processInputs(request, charsets=None):
 
 
 def _recursive_decode(value, charset):
-    """Recursively look for string values and decode.
-    """
+    """Recursively look for string values and decode."""
     if isinstance(value, list):
         return [_recursive_decode(v, charset) for v in value]
     elif isinstance(value, tuple):
         return tuple(_recursive_decode(v, charset) for v in value)
     elif isinstance(value, dict):
         return {k: _recursive_decode(v, charset) for k, v in value.items()}
-    elif isinstance(value, six.binary_type):
-        return six.text_type(value, charset, 'replace')
+    elif isinstance(value, bytes):
+        return str(value, charset, "replace")
     return value
 
 
@@ -93,9 +96,8 @@ def switch_on(view, request_layer=z3c.form.interfaces.IFormLayer):
 
     request = view.request
 
-    if (
-        not IFixedUpRequest.providedBy(request) and
-        not IBrowserApplicationRequest.providedBy(request)
-    ):
+    if not IFixedUpRequest.providedBy(
+        request
+    ) and not IBrowserApplicationRequest.providedBy(request):
         interface.alsoProvides(request, IFixedUpRequest)
         interface.alsoProvides(request, request_layer)

@@ -6,6 +6,7 @@ from plone.z3cform.z2 import processInputs
 from z3c.form.form import BaseForm
 from z3c.form.group import GroupForm
 
+
 _original_BaseForm_update = BaseForm.update
 _original_GroupForm_update = GroupForm.update
 

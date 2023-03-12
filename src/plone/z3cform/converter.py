@@ -1,8 +1,8 @@
-import ZPublisher.HTTPRequest
 import cgi
 import z3c.form.converter
 import z3c.form.interfaces
 import zope.publisher.browser
+import ZPublisher.HTTPRequest
 
 
 class FileUploadDataConverter(z3c.form.converter.FileUploadDataConverter):
@@ -24,4 +24,4 @@ class FileUploadDataConverter(z3c.form.converter.FileUploadDataConverter):
             fieldstorage.filename = value.filename
             value = zope.publisher.browser.FileUpload(fieldstorage)
 
-        return super(FileUploadDataConverter, self).toFieldValue(value)
+        return super().toFieldValue(value)

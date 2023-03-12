@@ -1,9 +1,10 @@
 from Acquisition import aq_inner
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import BoundPageTemplate
 from plone.z3cform import interfaces
 from plone.z3cform import z2
+from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import BoundPageTemplate
 from zope.pagetemplate.interfaces import IPageTemplate
+
 import z3c.form.interfaces
 import zope.component
 import zope.interface
@@ -25,10 +26,9 @@ class FormWrapper(BrowserView):
     request_layer = z3c.form.interfaces.IFormLayer
 
     def __init__(self, context, request):
-        super(FormWrapper, self).__init__(context, request)
+        super().__init__(context, request)
         if self.form is not None:
-            self.form_instance = self.form(
-                aq_inner(self.context), self.request)
+            self.form_instance = self.form(aq_inner(self.context), self.request)
             self.form_instance.__name__ = self.__name__
 
     def update(self):
@@ -39,9 +39,7 @@ class FormWrapper(BrowserView):
         """
 
         if not z3c.form.interfaces.ISubForm.providedBy(self.form_instance):
-            zope.interface.alsoProvides(
-                self.form_instance,
-                interfaces.IWrappedForm)
+            zope.interface.alsoProvides(self.form_instance, interfaces.IWrappedForm)
 
         z2.switch_on(self, request_layer=self.request_layer)
         self.form_instance.update()
@@ -73,10 +71,11 @@ class FormWrapper(BrowserView):
         (self, request) to IPageTemplate and use that instead.
         """
         if self.request.response.getStatus() in (302, 303):
-            return u""
+            return ""
         if self.index is None:
             template = zope.component.getMultiAdapter(
-                (self, self.request), IPageTemplate)
+                (self, self.request), IPageTemplate
+            )
             return BoundPageTemplate(template, self)()
         return self.index()
 
@@ -93,12 +92,13 @@ class FormWrapper(BrowserView):
         description for your page.  Overriding this with a simple
         attribute works as well.
         """
-        return getattr(self.form_instance, 'description', "")
+        return getattr(self.form_instance, "description", "")
 
 
 def wrap_form(form, __wrapper_class=FormWrapper, **kwargs):
     class MyFormWrapper(__wrapper_class):
         pass
+
     assert z3c.form.interfaces.IForm.implementedBy(form)
     MyFormWrapper.form = form
     for name, value in kwargs.items():

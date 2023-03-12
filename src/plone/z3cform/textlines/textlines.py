@@ -16,7 +16,6 @@ $Id: __init__.py 97 2007-03-29 22:58:27Z rineichen $
 """
 __docformat__ = "reStructuredText"
 
-import six
 import zope.component
 import zope.interface
 import zope.schema.interfaces
@@ -31,12 +30,11 @@ try:
     from z3c.form.interfaces import ITextLinesWidget
 
 except ImportError:
-
     # backport for z3c.form 1.9
 
+    from z3c.form import converter
     from z3c.form import interfaces
     from z3c.form import widget
-    from z3c.form import converter
     from z3c.form.browser import textarea
 
     class ITextLinesWidget(interfaces.IWidget):
@@ -44,6 +42,7 @@ except ImportError:
 
     class TextLinesWidget(textarea.TextAreaWidget):
         """Input type sequence widget implementation."""
+
         zope.interface.implementsOnly(ITextLinesWidget)
 
     def TextLinesFieldWidget(field, request):
@@ -67,8 +66,8 @@ except ImportError:
             # if the value is the missing value, then an empty list is
             # produced.
             if value is self.field.missing_value:
-                return u''
-            return u'\n'.join(six.text_type(v) for v in value)
+                return ""
+            return "\n".join(str(v) for v in value)
 
         def toFieldValue(self, value):
             """See interfaces.IDataConverter"""
@@ -81,6 +80,7 @@ except ImportError:
             if isinstance(valueType, tuple):
                 valueType = valueType[0]
             return collectionType(valueType(v) for v in value.split())
+
 
 # additional
 
@@ -96,8 +96,8 @@ class TextLinesSetConverter(TextLinesConverter):
         """Convert from text lines to HTML representation."""
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
-            return u''
-        return u'\n'.join(six.text_type(v) for v in sorted(value))
+            return ""
+        return "\n".join(str(v) for v in sorted(value))
 
 
 @zope.component.adapter(
@@ -111,5 +111,5 @@ class TextLinesFrozenSetConverter(TextLinesConverter):
         """Convert from text lines to HTML representation."""
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
-            return u''
-        return u'\n'.join(six.text_type(v) for v in sorted(value))
+            return ""
+        return "\n".join(str(v) for v in sorted(value))
