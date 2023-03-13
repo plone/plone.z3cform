@@ -505,8 +505,7 @@ the correct set of subforms can be processed::
   <BLANKLINE>
   ...
   <form action="http://nohost/context?crud-edit.form.page=1"
-            method="post">
-  ...
+            method="post"...
 
 Let's change Thomas' age on the second page:
 
