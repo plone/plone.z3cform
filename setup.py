@@ -58,6 +58,7 @@ setup(
     zip_safe=False,
     python_requires=">=3.8",
     install_requires=[
+        "setuptools",
         "plone.batching",
         "z3c.form>=4.0",
         "zope.browserpage",
