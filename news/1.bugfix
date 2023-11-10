@@ -1,0 +1,3 @@
+Replace deprecated ``cgi.FieldStorage`` class with a simple one.
+This is only used for converting a ``ZPublisher`` ``FileUpload`` to a ``zope.publisher`` one.
+[maurits]
