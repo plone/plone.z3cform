@@ -125,7 +125,7 @@ There are a few other reasons why you may want to use the wrapper view, even
 in later versions of Zope:
 
 * To support both an earlier version of Zope and Zope 2.12+
-* To re-use the same form in multiple views or viewlets
+* To reuse the same form in multiple views or viewlets
 * To use the ``IPageTemplate`` adapter lookup semantics from z3c.form to
   provide a different default or override template for the overall page
   layout, while retaining (or indeed customising independently) the default
