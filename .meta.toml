@@ -10,3 +10,4 @@ check_manifest_ignores = """
      "*.cfg",
 """
 codespell_ignores = "fo,"
+dependencies_ignores = "['five.pt']"
