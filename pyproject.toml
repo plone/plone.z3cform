@@ -1,6 +1,9 @@
 # Generated from:
 # https://github.com/plone/meta/tree/master/config/default
 # See the inline comments on how to expand/tweak this configuration file
+[build-system]
+requires = ["setuptools>=68.2"]
+
 [tool.towncrier]
 directory = "news/"
 filename = "CHANGES.rst"
@@ -116,6 +119,7 @@ Zope = [
   'Products.CMFCore', 'Products.CMFDynamicViewFTI',
 ]
 python-dateutil = ['dateutil']
+ignore-packages = ['five.pt']
 
 ##
 # Add extra configuration options in .meta.toml:
@@ -125,7 +129,6 @@ python-dateutil = ['dateutil']
 #    "gitpython = ['git']",
 #    "pygithub = ['github']",
 #  ]
-#  """
 ##
 
 [tool.check-manifest]
