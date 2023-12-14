@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.3 (2023-12-14)
+------------------
+
+Bug fixes:
+
+
+- Replace deprecated ``cgi.FieldStorage`` class with a simple one.
+  This is only used for converting a ``ZPublisher`` ``FileUpload`` to a ``zope.publisher`` one.
+  [maurits] (#1)
+
+
 2.0.2 (2023-10-07)
 ------------------
 
