@@ -65,5 +65,5 @@ setup(
         "zope.pagetemplate",
         "Zope",
     ],
-    extras_require={"test": ["persistent", "plone.testing[z2]", "zope.annotation"]},
+    extras_require={"test": ["persistent", "plone.testing", "zope.annotation"]},
 )
