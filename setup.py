@@ -3,7 +3,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-__version__ = "2.0.4.dev0"
+__version__ = "2.0.4"
 
 
 def read(path):
