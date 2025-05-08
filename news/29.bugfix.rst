@@ -1,0 +1,1 @@
+Fix traversing to widgets nested in an object widget [ale-rt]
