@@ -154,13 +154,16 @@ And traverse through to individual items.
     >>> age_widget.value
     '50'
 
-Out of range errors are LocationErrors
+Sometimes you want to traverse to a widget that does not yet exist,
+e.g. the one that is added when you click the add button:
 
     >>> traverser = get_traverser(Bar(),u"test-list-form")
     >>> age_widget = traverser.traverse('list_field.9', [])
-    Traceback (most recent call last):
-      File "<stdin>", line 1, in ?
-    zope.location.interfaces.LocationError: "'9' not in range"
+    Updating test form
+    >>> age_widget
+    <TextWidget 'form.widgets.list_field.9'>
+    >>> age_widget.value
+    ''
 
 Non-integer values are also LocationErrors
 

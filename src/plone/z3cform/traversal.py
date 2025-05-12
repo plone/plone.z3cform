@@ -72,7 +72,7 @@ class FormWidgetTraversal:
                     # part should be integer index in list, look it up
                     target = target.widgets[int(part)]
                 except IndexError:
-                    raise TraversalError("'" + part + "' not in range")
+                    target = target.getWidget(int(part))
                 except ValueError:
                     # HACK: part isn't integer. Iterate through widgets to
                     # find matching name. This is required for
