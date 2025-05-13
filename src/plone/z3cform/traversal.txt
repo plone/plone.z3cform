@@ -214,7 +214,7 @@ We can find this object widget
     >>> obj_widget
     <ObjectWidget 'form.widgets.obj_field'>
 
-We initialize the traverses to the form within:
+We initialize the traverser to the form within:
 
     >>> traverser = get_traverser(Bar(),u"test-parent-form")
 
