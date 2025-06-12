@@ -154,13 +154,16 @@ And traverse through to individual items.
     >>> age_widget.value
     '50'
 
-Out of range errors are LocationErrors
+Sometimes you want to traverse to a widget that does not yet exist,
+e.g. the one that is added when you click the add button:
 
     >>> traverser = get_traverser(Bar(),u"test-list-form")
     >>> age_widget = traverser.traverse('list_field.9', [])
-    Traceback (most recent call last):
-      File "<stdin>", line 1, in ?
-    zope.location.interfaces.LocationError: "'9' not in range"
+    Updating test form
+    >>> age_widget
+    <TextWidget 'form.widgets.list_field.9'>
+    >>> age_widget.value
+    ''
 
 Non-integer values are also LocationErrors
 
@@ -211,16 +214,33 @@ We can find this object widget
     >>> obj_widget
     <ObjectWidget 'form.widgets.obj_field'>
 
-And traverse through to the form within
+We initialize the traverser to the form within:
 
     >>> traverser = get_traverser(Bar(),u"test-parent-form")
-    >>> list_widget = traverser.traverse('obj_field.list_field', [])
+
+The form is the traverser context:
+    >>> traverser.context.__class__
+    <class 'MyParentForm'>
+
+We want to traverse to the list_field widget within the object field:
+    >>> traverser.context.update()
+    Updating test form
+    >>> list_field_widget = traverser.context.widgets["obj_field"].widgets["list_field"]
+    >>> list_field_widget
+    <MultiWidget 'form.widgets.obj_field.widgets.list_field'>
+
+The widget as a prefix:
+    >>> list_field_widget.prefix
+    'form.widgets.obj_field.widgets.list_field'
+
+To traverse to it we need to remove the form and widgets prefixes:
+    >>> list_widget = traverser.traverse('obj_field.widgets.list_field', [])
     Updating test form
     >>> list_widget
     <MultiWidget 'form.widgets.obj_field.widgets.list_field'>
 
     >>> traverser = get_traverser(Bar(),u"test-parent-form")
-    >>> age_widget = traverser.traverse('obj_field.list_field.0', [])
+    >>> age_widget = traverser.traverse('obj_field.widgets.list_field.0', [])
     Updating test form
     >>> age_widget
     <TextWidget 'form.widgets.obj_field.widgets.list_field.0'>
@@ -230,10 +250,10 @@ And traverse through to the form within
 Missing widgets are LocationErrors
 
     >>> traverser = get_traverser(Bar(),u"test-parent-form")
-    >>> list_widget = traverser.traverse('obj_field.camel_field', [])
+    >>> list_widget = traverser.traverse('obj_field.widgets.camel_field', [])
     Traceback (most recent call last):
       File "<stdin>", line 1, in ?
-    zope.location.interfaces.LocationError: 'camel_field'
+    zope.location.interfaces.LocationError: 'widgets'
 
 Looking for anything other than 'widgets' is also an error
 

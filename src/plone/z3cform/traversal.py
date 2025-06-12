@@ -4,6 +4,7 @@ from plone.z3cform import z2
 from plone.z3cform.interfaces import IDeferSecurityCheck
 from plone.z3cform.interfaces import IFormWrapper
 from z3c.form import util
+from z3c.form.browser.object import ObjectWidget
 from z3c.form.interfaces import IForm
 from zope.component import adapter
 from zope.interface import alsoProvides
@@ -71,7 +72,7 @@ class FormWidgetTraversal:
                     # part should be integer index in list, look it up
                     target = target.widgets[int(part)]
                 except IndexError:
-                    raise TraversalError("'" + part + "' not in range")
+                    target = target.getWidget(int(part))
                 except ValueError:
                     # HACK: part isn't integer. Iterate through widgets to
                     # find matching name. This is required for
@@ -86,6 +87,14 @@ class FormWidgetTraversal:
                         parts.remove("widgets")
                     else:
                         raise TraversalError("'" + part + "' not valid index")
+            elif isinstance(target, ObjectWidget):
+                # ObjectWidget is a special case, we need to look for
+                # the name in the widget list
+                try:
+                    name = parts.pop(0)
+                    target = target.widgets[name]
+                except (IndexError, KeyError):
+                    target = None
             elif hasattr(target, "widgets"):  # Either base form, or subform
                 # Check to see if we can find a "Behaviour.widget"
                 new_target = None
