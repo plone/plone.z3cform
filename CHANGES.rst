@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.5 (2025-06-18)
+------------------
+
+Bug fixes:
+
+
+- Fix traversing to widgets nested in an object widget [ale-rt] (#29)
+
+
 2.0.4 (2025-01-23)
 ------------------
 
