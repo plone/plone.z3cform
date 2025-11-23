@@ -4,6 +4,7 @@ registered to provide default form templates for forms and subforms.
 The default templates draw from a macro page template which you can use by
 itself to render parts of it.
 """
+
 from Acquisition import IAcquirer
 from Acquisition import ImplicitAcquisitionWrapper
 from Products.Five.browser.pagetemplatefile import (

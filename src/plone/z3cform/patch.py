@@ -2,6 +2,7 @@
 GroupForm.update(). We need to call z2.processInputs() before the request is
 used, because z3c.form expects them to have been converted to unicode first.
 """
+
 from plone.z3cform.z2 import processInputs
 from z3c.form.form import BaseForm
 from z3c.form.group import GroupForm
