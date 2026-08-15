@@ -20,7 +20,6 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
-
 try:
     # z3c.form 2.0 or later
     from z3c.form.browser.textlines import TextLinesFieldWidget
