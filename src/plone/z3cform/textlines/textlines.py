@@ -14,12 +14,12 @@
 """
 $Id: __init__.py 97 2007-03-29 22:58:27Z rineichen $
 """
+
 __docformat__ = "reStructuredText"
 
 import zope.component
 import zope.interface
 import zope.schema.interfaces
-
 
 try:
     # z3c.form 2.0 or later

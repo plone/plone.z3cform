@@ -100,7 +100,7 @@ class AbstractCrudForm:
         raise NotImplementedError
 
     def remove(self, id_item):
-        (id, item) = id_item
+        id, item = id_item
         raise NotImplementedError
 
     def before_update(self, item, data):
